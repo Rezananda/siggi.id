@@ -7,7 +7,7 @@ import SlidingNavbar from './SlidingNavbar'
 const Navbar = () => {
     const [slideNavbar, setSlideNavbar] = useState(false)
   return (
-    <div className='py-5 bg-white drop-shadow-xl flex justify-center sticky top-0 z-10 w-full'>
+    <div className='py-5 bg-white drop-shadow-xl flex justify-center sticky top-0 z-50 w-full'>
         <div className='flex items-center justify-between w-11/12'>
             <div className='flex items-center md:gap-2'>
                 <button onClick={() => setSlideNavbar(true)}>

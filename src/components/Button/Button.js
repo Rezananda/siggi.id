@@ -6,10 +6,13 @@ const Button = ({type, size, onclick, label}) => {
     <button className={`
     ${
         type === 'fill'?
-            'text-white bg-yellow-500 border border-yellow-500'
+            'text-white bg-yellow-500 border border-yellow-500 px-3 py-1 font-bold w-full rounded-full'
         :
         type === 'outline'? 
-            'text-yellow-500 bg-white border border-yellow-500'
+            'text-yellow-500 bg-white border border-yellow-500 px-3 py-1 font-bold w-full rounded-full'
+        :
+        type === 'link' ?
+            'text-blue-500 underline'
         :
             ''
     }
@@ -24,10 +27,13 @@ const Button = ({type, size, onclick, label}) => {
         size === 'large'?
             'text-lg'
         :
+        size === 'extra-small'?
+            'text-xs'
+        :
             ''
     }
 
-    px-3 py-1 font-bold w-full rounded-full`} onClick={onclick}>
+    `} onClick={onclick}>
         {label}
     </button>
 </>

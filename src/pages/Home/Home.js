@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Category from '../../components/Category/Category'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import Navbar from '../../components/Navbar/Navbar'
@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className='bg-gray-50'>
       <Navbar/>
-      <HeroImage/>
+      <HeroImage type={'home'}/>
       <Search/>
       <Voucher/>
       <PromoProduct/>
