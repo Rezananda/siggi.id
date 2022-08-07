@@ -3,63 +3,40 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import TopNavbar from '../../components/Navbar/TopNavbar'
 import piring2 from '../../assets/img/piring2.jpg'
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import HeroImage from '../../components/HeroImage/HeroImage';
 import { Cart } from '../../context/CartContext'
-import Button from '../../components/Button/Button'
+import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 
 const ProductDetail = () => {
     const [loading, setLoading] = useState(false)
-    const {cart, addToCart, removeToCart} = useContext(Cart)
+    const {addToCart} = useContext(Cart)
     const [addCarts, setAddCarts] = useState(0)
     const [variant, setVarian] = useState('-')
-    const [productDetail, setProductDetail] = useState({
-        attributes: {
-            variants:{
-                data: [
-                    {
-                        attributes:{}
-                    }
-                ]
-            },
-            image:
-                {
-                    data:[]
-                }
-            }
-    })
-    const variant_prices = productDetail.attributes.variants.data.find(x => x.attributes.variant_name === variant)
+    const [productDetail, setProductDetail] = useState({attributes:{variants:{data:[{attributes:{}}]},image:{data:[]}}})
+    const getCurrency = useGetCurrency()
+    const selectedVariant = productDetail.attributes.variants.data.find(x => x.attributes.variant_name === variant)
 
-    const handleAddToCarts = (type) => {
+    const handleAddToCarts = () => {
         if(addCarts < 0){
             return
         }else{
-            if(type === 'plus'){
-                setAddCarts(addCarts+1)
-                addToCart({
-                    id: productDetail.id,
-                    name: productDetail.attributes.name,
-                    image: productDetail.attributes.image.data[0].attributes.url,
-                    variant_name: variant,
-                    is_discount_variant: variant_prices.attributes.is_discount_variant,
-                    variant_price: parseInt(variant_prices.attributes.variant_price),
-                    variant_discount: variant_prices.attributes.variant_discount,
-                    variant_price_final: parseInt(variant_prices.attributes.variant_price) - (parseInt(variant_prices.attributes.variant_price) * parseInt(variant_prices.attributes.variant_discount) / 100)
-                })
-            }else if(type === 'minus'){
-                setAddCarts(addCarts-1)
-                removeToCart(productDetail)
-            }
+            setAddCarts(addCarts+1)
+            addToCart({
+                id: productDetail.id,
+                name: productDetail.attributes.name,
+                image: productDetail.attributes.image.data[0].attributes.url,
+                variant_name: variant,
+                is_discount_variant: selectedVariant.attributes.is_discount_variant,
+                variant_price: parseInt(selectedVariant.attributes.variant_price),
+                variant_discount: selectedVariant.attributes.variant_discount,
+                variant_price_final: parseInt(selectedVariant.attributes.variant_price) - (parseInt(selectedVariant.attributes.variant_price) * parseInt(selectedVariant.attributes.variant_discount) / 100)
+            })
         }
     }
 
     const {id} = useParams()
-    const getCurrency = (val) => {
-        const result = parseInt(val).toLocaleString('id', { style: 'currency', currency: 'IDR' })
-        return result
-      }
 
     const getProductDetail = async(id) => {
         setLoading(true)
@@ -98,27 +75,34 @@ const ProductDetail = () => {
                     {productDetail.attributes.variants.data.length > 1 ?
                         <div> 
                             <p className='font-bold'>Variasi: </p>
-                            <div className='flex items-center gap-1'>
+                            <div className='flex flex-wrap items-center gap-2 overflow-x-auto p-1'>
                                 {productDetail.attributes.variants.data.map((val, index) => 
                                     <div className="relative" key={index}>
                                         <input onClick={(e) => setVarian(e.target.value)} className="sr-only peer" type="radio" value={val.attributes.variant_name} name="variant" id={val.attributes.variant_name}/>
                                         <label className="flex p-2 bg-white border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:bg-yellow-50 peer-checked:ring-2 peer-checked:border-transparent" htmlFor={val.attributes.variant_name}>{val.attributes.variant_name}</label>
                                     </div>
                                 )}
-
                             </div>      
                             <div>
-                                {variant_prices === undefined ? 
-                                <p className='font-bold text-2xl text-red-500'>{getCurrency(0)}</p> 
+                                {selectedVariant === undefined ? 
+                                <p className='font-bold text-2xl'>{getCurrency(0)}</p> 
                                 :
                                 <>
+                                {selectedVariant.attributes.is_discount_variant ? 
+                                <>                                
                                     <p className='font-bold text-2xl text-red-500'>{
-                                        getCurrency(parseInt(variant_prices.attributes.variant_price) - (parseInt(variant_prices.attributes.variant_price) * parseInt(variant_prices.attributes.variant_discount) / 100))}
+                                        getCurrency(parseInt(selectedVariant.attributes.variant_price) - (parseInt(selectedVariant.attributes.variant_price) * parseInt(selectedVariant.attributes.variant_discount) / 100))}
                                     </p>
                                     <div className='flex items-center gap-2'>
-                                        <span className='bg-red-100 text-red-500 font-bold px-1 rounded'>{variant_prices.attributes.variant_discount}%</span>
-                                        <p className='text-gray-400 line-through'>{getCurrency(variant_prices.attributes.variant_price)}</p>
+                                        <span className='bg-red-100 text-red-500 font-bold px-1 rounded'>{selectedVariant.attributes.variant_discount}%</span>
+                                        <p className='text-gray-400 line-through'>{getCurrency(selectedVariant.attributes.variant_price)}</p>
                                     </div>
+                                </>
+                                :
+                                    <p className='font-bold text-2xl'>{
+                                        getCurrency(parseInt(selectedVariant.attributes.variant_price))}
+                                    </p>
+                                }
                                 </>
                                 }
                             </div>
@@ -135,7 +119,7 @@ const ProductDetail = () => {
             </div>
         }
         <div className='flex items-center p-2 fixed bottom-0 left-0 right-0 bg-white rounded-t-lg'>
-            <button className='flex items-center justify-center bg-yellow-500 border border-yellow-500 w-full p-2 rounded-full text-white font-bold disabled:bg-yellow-100 disabled:border-yellow-100' disabled={variant === '-' ? true: false} onClick={() => handleAddToCarts('plus')}>
+            <button className='flex items-center justify-center bg-yellow-500 border border-yellow-500 w-full p-2 rounded-full text-white font-bold disabled:bg-yellow-100 disabled:border-yellow-100' disabled={variant === '-' ? true: false} onClick={() => handleAddToCarts()}>
                 Tambah ke Keranjang         
             </button>
         </div>

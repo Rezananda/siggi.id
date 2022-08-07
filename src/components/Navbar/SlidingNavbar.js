@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { JwtAuth } from '../../context/JwtContext'
+import useLogout from '../../hooks/useLogout/useLogout'
 import Button from '../Button/Button'
 import Icon from '../Icon/Icon'
 
 const SlidingNavbar = ({slideNavbar, setSlideNavbar}) => {
+    const navigate = useNavigate()
+    const {jwt} = useContext(JwtAuth)
+    const [getLogout] = useLogout()
     const [slidingDown, setSlidingDown] = useState({
         product: false,
-        info: false
+        info: false,
+        userAuth: false
     })
+    
   return (
     <div>
         {slideNavbar&&<div className='h-screen fixed top-0 bottom-0 left-0 right-0 z-30 bg-black opacity-50' onClick={() => setSlideNavbar(false)}></div>}
@@ -78,7 +86,33 @@ const SlidingNavbar = ({slideNavbar, setSlideNavbar}) => {
                         }
                     </li>
                     <li className='md:hidden'>
-                        <Button type={'fill'} size={'large'} label={'LOGIN'}/>
+                        <div>
+                            {jwt === undefined? 
+                                <Button type={'fill'} size={'large'} label={'LOGIN'} onclick={() => navigate('/login')}/>
+                                :
+                                <div className='flex items-center'>
+                                    <Icon type={'user'} className={'h-8 w-8 text-gray-500'}/>
+                                    <p className='text-xl'>{jwt.user.username}</p>
+                                    <button onClick={() => setSlidingDown({...slidingDown, userAuth: !slidingDown.userAuth})}>
+                                        {slidingDown.userAuth ? 
+                                        <Icon type={'chevron-up'} className={'h-6 w-6 text-black'}/>
+                                        :
+                                        <Icon type={'chevron-down'} className={'h-6 w-6 text-black'}/>
+                                        }
+                                    </button>
+                                </div>
+                            }
+                        </div>     
+                        {
+                            slidingDown.userAuth&&jwt !== undefined&&
+                            <ul className='flex flex-col ml-4 text-sm gap-4'>
+                                <li>
+                                    <button className='text-start' onClick={() => getLogout()}>
+                                        <p>LOGOUT</p>
+                                    </button>
+                                </li>
+                            </ul>
+                        }    
                     </li>
                 </ul>
             </div>

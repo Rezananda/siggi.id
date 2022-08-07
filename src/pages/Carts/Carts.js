@@ -1,4 +1,6 @@
-import React, { useContext } from 'react'
+import axios from 'axios'
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import TopNavbar from '../../components/Navbar/TopNavbar'
 import { Cart } from '../../context/CartContext'
@@ -6,7 +8,26 @@ import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 
 const Carts = () => {
     const {cart, addToCart, removeToCart} = useContext(Cart)
+    const navigate = useNavigate()
     const getCurrency = useGetCurrency()
+    const [loading, setLoading] = useState(false)
+
+    const handleOrder = () => {
+        setLoading(false)
+        axios.post('https://calm-fjord-36326.herokuapp.com//api/orders', {
+            price_total: 50000,
+        }, {
+            headers: {
+                Authorization:
+                    `Bearer`
+            }
+        })
+        try {
+
+        } catch (error) {
+            
+        }
+    }
 
   return (
     <div className='min-h-screen bg-gray-50'>
@@ -64,12 +85,12 @@ const Carts = () => {
                 <div className='flex flex-col'>
                     <div className='flex gap-1 items-center'>
                         <p className='text-lg'>TOTAL :</p>
-                        <p className='text-lg font-bold'>{getCurrency(cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) - (parseInt(val.variant_price_final) * val.variant_discount)/100 : parseInt(val.variant_price_final)) * val.qty), 0))}</p>
+                        <p className='text-lg font-bold'>{getCurrency(cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) : parseInt(val.variant_price)) * val.qty), 0))}</p>
                     </div>
                     <p className='text-xs'>*Belum Termasuk Ongkos Kirim</p>
                 </div>
                 <div>
-                    <Button type={'fill'} size={'medium'} label={'Checkout'}/>
+                    <Button type={'fill'} size={'medium'} label={'Checkout'} onclick={() => navigate('/orders')}/>
                 </div>
             </div>
         </div>
