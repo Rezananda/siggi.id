@@ -79,6 +79,7 @@ const Carts = () => {
                 </div>
                 )}
             </div>
+            {cart.length === 0 && <p className='flex items-center justify-center'>Belum ada produk di keranjang</p>}
         </div>
         <div className='fixed bottom-0 left-0 right-0 p-4 bg-white'>
             <div className='flex items-center w-full justify-between'>

@@ -6,7 +6,7 @@ import Icon from '../Icon/Icon'
 const ShoppingCarts = () => {
   const {cart, } = useContext(Cart)
   const navigate = useNavigate()
-  
+
   return (
     <button className='relative' onClick={() => navigate('/carts')}>
         <div className='flex justify-end'>

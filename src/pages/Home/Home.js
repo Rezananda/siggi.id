@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Category from '../../components/Category/Category'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import Navbar from '../../components/Navbar/Navbar'
