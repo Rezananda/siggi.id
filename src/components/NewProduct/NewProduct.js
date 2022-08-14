@@ -22,7 +22,7 @@ const NewProduct = () => {
   const getData = async () => {
     setLoading(true)
     try{
-      let response = await axios.get('https://calm-fjord-36326.herokuapp.com/api/products?populate=*')
+      let response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?populate=*`)
       setProducts(response.data.data)
       setLoading(false)
     }catch(e){

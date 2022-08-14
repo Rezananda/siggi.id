@@ -5,11 +5,11 @@ import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 const CardProduct = ({productId, name, variants, image}) => {
   const navigate = useNavigate()
   const getCurrency = useGetCurrency()
-
+  
   return (
     <div className='flex flex-col md:w-48 w-full bg-white shadow-lg rounded-lg h-fit overflow-hidden' onClick={() => navigate(`/product/${productId}`)}>
         <div className='md:w-full'>
-          <img className='object-contain' src={`${image}`} alt='piring1'/>
+          <img className='object-contain' src={`${process.env.REACT_APP_BASE_URL}${image}`||`${image}`} alt='piring1'/>
         </div>
 
         {variants.find(x => x.attributes.is_discount_variant === true) ? 

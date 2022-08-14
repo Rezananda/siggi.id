@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import TopNavbar from '../../components/Navbar/TopNavbar'
-import piring2 from '../../assets/img/piring2.jpg'
 import "swiper/css";
 import "swiper/css/navigation";
 import HeroImage from '../../components/HeroImage/HeroImage';
@@ -41,7 +40,7 @@ const ProductDetail = () => {
     const getProductDetail = async(id) => {
         setLoading(true)
         try {
-            let response = await axios.get(`https://calm-fjord-36326.herokuapp.com/api/products/${id}?populate=*`)
+            let response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products/${id}?populate=*`)
             setProductDetail(response.data.data)
             setLoading(false)
         } catch (error) {

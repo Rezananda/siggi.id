@@ -18,7 +18,7 @@ const Voucher = () => {
     const getVoucher = async() => {
         setLoading(true)
         try{
-            let response = await axios.get('https://calm-fjord-36326.herokuapp.com/api/vouchers')
+            let response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers`)
             setVoucher(response.data.data)
             setLoading(false)
         }catch(e){

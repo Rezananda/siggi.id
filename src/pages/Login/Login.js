@@ -17,7 +17,7 @@ const Login = () => {
     const handleLogin = () => {
         setLoading(true)
         try {
-            axios.post('https://calm-fjord-36326.herokuapp.com/api/auth/local',{
+            axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/local`,{
                 identifier:login.email,
                 password:login.password
             }).then(response => {

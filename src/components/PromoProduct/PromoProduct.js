@@ -17,21 +17,24 @@ const PromoProduct = () => {
     const [loading, setLoading] = useState(false)
     const isDesktop = useBreakpoints()
 
-    const getData = async () => {
-      setLoading(true)
-      try{
-        let response = await axios.get('https://calm-fjord-36326.herokuapp.com/api/products?populate=*')
-        setProducts(response.data.data)
-        setLoading(false)
-      }catch(e){
-        console.log(e)
-        setLoading(false)
-      }
-    }
-    
     useEffect(() => {
-      getData()
-    },[])
+      let isApiSubscribed = true
+      setLoading(true)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?populate=*`).then(response => {
+          if(isApiSubscribed){
+            setProducts(response.data.data)
+            setLoading(false)
+          }
+        }).catch(err => {
+          if(isApiSubscribed){
+            console.log(err.message)
+            setLoading(false)
+          }
+        })
+        return () => {
+          isApiSubscribed = false
+        }
+      },[])
     
   return (
     <div className='flex w-full justify-center'>

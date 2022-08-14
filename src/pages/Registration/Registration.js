@@ -18,7 +18,7 @@ const Registration = () => {
         setLoading(true)
         try {
             if(registration.password === registration.passwordConfirmation){
-                axios.post('https://calm-fjord-36326.herokuapp.com/api/auth/local/register', {
+                axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/local/register`, {
                     username: registration.userName,
                     email: registration.email,
                     password: registration.password

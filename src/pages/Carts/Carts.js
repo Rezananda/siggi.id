@@ -4,30 +4,44 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import TopNavbar from '../../components/Navbar/TopNavbar'
 import { Cart } from '../../context/CartContext'
+import { JwtAuth } from '../../context/JwtContext'
 import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 
 const Carts = () => {
     const {cart, addToCart, removeToCart} = useContext(Cart)
+    // const {jwt} = useContext(JwtAuth)
     const navigate = useNavigate()
     const getCurrency = useGetCurrency()
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
 
-    const handleOrder = () => {
-        setLoading(false)
-        axios.post('https://calm-fjord-36326.herokuapp.com//api/orders', {
-            price_total: 50000,
-        }, {
-            headers: {
-                Authorization:
-                    `Bearer`
-            }
-        })
-        try {
+    // const handleOrder = () => {
+    //     setLoading(true)
+    //     try {
+    //         axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
+    //             "data": {
+    //               "price_total": cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) : parseInt(val.variant_price)) * val.qty), 0),
+    //               "detail_order": cart,
+    //               "status": "In Progress",
+    //             }
+    //           }, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization :`Bearer ${jwt.jwt}`
+    //             }
+    //         }).then(response => {
+    //             console.log(response.data)
+    //             navigate('/orders', {state: {order: response.data}})
+    //             setLoading(false)
+    //         }).catch(error => {
+    //             console.log(error.message)
+    //             setLoading(false)
+    //         })
+    //     } catch (error) {
+    //         console.log(error)
+    //         setLoading(false)
+    //     }
+    // }
 
-        } catch (error) {
-            
-        }
-    }
 
   return (
     <div className='min-h-screen bg-gray-50'>
@@ -37,7 +51,7 @@ const Carts = () => {
                 {cart.map((val, index) => 
                 <div className='w-full p-1 flex items-center bg-white rounded-lg drop-shadow px-3 py-1 gap-2' key={index}>
                     <div className='w-2/12 truncate overflow-hidden rounded'>
-                        <img src={val.image} alt={val.name}/>
+                        <img src={`${process.env.REACT_APP_BASE_URL}${val.image}`} alt={val.name}/>
                     </div>
                     <div className='w-6/12'>
                         <p className='truncate'>{val.name}</p>
