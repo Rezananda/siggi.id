@@ -7,7 +7,7 @@ import ShoppingCarts from '../ShoppingCarts/ShoppingCarts'
 const TopNavbar = ({label,withCart}) => {
     const navigate = useNavigate()
   return (
-    <div className='py-5 bg-white drop-shadow-xl flex justify-center sticky top-0 z-50 w-full'>
+    <div className='py-5 bg-white drop-shadow-lg flex justify-center sticky top-0 z-50 w-full'>
         <div className='flex items-center justify-between w-11/12'>
             <div className='flex items-center gap-1'>
                 <button onClick={() => navigate('/')}>

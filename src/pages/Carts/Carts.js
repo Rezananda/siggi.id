@@ -49,7 +49,7 @@ const Carts = () => {
         <div className='p-4'>
             <div className='w-full flex flex-col gap-2'>
                 {cart.map((val, index) => 
-                <div className='w-full p-1 flex items-center bg-white rounded-lg drop-shadow px-3 py-1 gap-2' key={index}>
+                <div className='w-full flex items-center bg-white rounded-md drop-shadow-lg px-3 py-1 gap-2' key={index}>
                     <div className='w-2/12 truncate overflow-hidden rounded'>
                         <img src={`${process.env.REACT_APP_BASE_URL}${val.image}`} alt={val.name}/>
                     </div>
@@ -78,7 +78,7 @@ const Carts = () => {
                             variant_discount: val.variant_discount,
                             variant_price_final: parseInt(val.variant_price_final
                         )})}>-</button>
-                        <p>{val.qty}</p>
+                        <p className='font-bold'>{val.qty}</p>
                         <button className='flex p-2 items-center border border-yellow-500 bg-yellow-500 text-white rounded' onClick={() => addToCart({...cart,
                             id: val.id,
                             name: val.name,
@@ -95,18 +95,16 @@ const Carts = () => {
             </div>
             {cart.length === 0 && <p className='flex items-center justify-center'>Belum ada produk di keranjang</p>}
         </div>
-        <div className='fixed bottom-0 left-0 right-0 p-4 bg-white'>
-            <div className='flex items-center w-full justify-between'>
-                <div className='flex flex-col'>
-                    <div className='flex gap-1 items-center'>
-                        <p className='text-lg'>TOTAL :</p>
-                        <p className='text-lg font-bold'>{getCurrency(cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) : parseInt(val.variant_price)) * val.qty), 0))}</p>
-                    </div>
-                    <p className='text-xs'>*Belum Termasuk Ongkos Kirim</p>
+        <div className='flex items-center w-full justify-between fixed bottom-0 left-0 right-0 px-2 py-4 bg-white border-t border-gray-100'>
+            <div className='flex flex-col'>
+                <div className='flex gap-1 items-center'>
+                    <p className='text-lg'>TOTAL :</p>
+                    <p className='text-lg font-bold underline'>{getCurrency(cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) : parseInt(val.variant_price)) * val.qty), 0))}</p>
                 </div>
-                <div>
-                    <Button type={'fill'} size={'medium'} label={'Checkout'} onclick={() => navigate('/orders')}/>
-                </div>
+                <p className='text-xs'>*Belum Termasuk Ongkos Kirim</p>
+            </div>
+            <div>
+                <Button type={'fill'} size={'small'} label={'Checkout'} onclick={() => navigate('/orders')}/>
             </div>
         </div>
     </div>

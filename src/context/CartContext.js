@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 
-const getCartItems = () => {
+export const getCartItems = () => {
     return localStorage.getItem('carts') ? JSON.parse(localStorage.getItem("carts")) : []
 }
 

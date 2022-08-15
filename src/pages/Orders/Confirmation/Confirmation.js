@@ -1,10 +1,10 @@
 import React from 'react'
 import useGetCurrency from '../../../hooks/useGetCurrency/useGetCurrency'
 
-const Confirmation = ({address, setStep}) => {
+const Confirmation = ({address}) => {
     const getCurrency = useGetCurrency()
   return (
-    <div className='bg-white rounded p-2 drop-shadow-md'>
+    <div className='bg-white rounded-lg p-4 drop-shadow-md'>
         <p className='font-bold text-lg mb-2'>KONFIRMASI PESANAN</p>
         <ul className='flex flex-col divide-y'>
             <li className='flex flex-col p-1'>
@@ -16,16 +16,8 @@ const Confirmation = ({address, setStep}) => {
                 <p className='text-lg'>{address.phoneNumber}</p>
             </li>
             <li className='flex flex-col p-1'>
-                <p className='font-bold'>Provinsi</p>
-                <p className='text-lg'>{address.province}</p>
-            </li>
-            <li className='flex flex-col p-1'>
-                <p className='font-bold'>Kota/Kabupaten</p>
-                <p className='text-lg'>{address.city_name}</p>
-            </li>
-            <li className='flex flex-col p-1'>
-                <p className='font-bold'>Alamat Lengkap</p>
-                <p className='text-lg'>{address.fullAddress}</p>
+                <p className='font-bold'>Alamat</p>
+                <p className='text-lg'>{`${address.fullAddress}, ${address.village_name}, ${address.city_name}, ${address.district_name}, ${address.village_name}, ${address.postCode}`}</p>
             </li>
             <li className='flex flex-col p-1'>
                 <p className='font-bold'>Detail Pesanan</p>

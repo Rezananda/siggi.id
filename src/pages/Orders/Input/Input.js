@@ -1,71 +1,77 @@
 import React from 'react'
 import useGetCurrency from '../../../hooks/useGetCurrency/useGetCurrency';
 
-const Input = ({handleStep, setAddress, address, provinces, loadingProvince, getCity, city, loadingCity, getShippingPrice, shippingPrice, loadingShippingPrice, setShippingPriceSelected, cart}) => {
+const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, loadingCity, getDistrict, district, loadingDistrict, getVillage, village, loadingVillage, cart}) => {
   const getCurrency = useGetCurrency()
   return (
     <>
-      <div className='bg-white rounded p-2 drop-shadow-md'>
-          <p className='font-bold text-lg'>DATA PESANAN</p>
+      <div className='bg-white rounded-lg p-4 drop-shadow-md'>
+          <p className='font-bold text-lg mb-2'>DATA PESANAN</p>
           <div className='flex flex-col gap-2'>
             <div className='flex flex-col gap-1'>
               <label className='font-bold'>Nama Lengkap</label>
-              <input type={'text'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Nama Lenkap' onChange={(e) => setAddress({...address, name: e.target.value})}/>
+              <input type={'text'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Nama Lengkap' onChange={(e) => setAddress({...address, name: e.target.value})}/>
             </div>
             <div className='flex flex-col gap-1'>
               <label className='font-bold'>Nomor Handphone</label>
-              <input type={'text'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Nomor Handphone' onChange={(e) => setAddress({...address, phoneNumber: e.target.value})}/>
+              <input type={'number'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Nomor Handphone' onChange={(e) => setAddress({...address, phoneNumber: e.target.value})}/>
             </div>
+
+            <div className='flex flex-col gap-1'>
+              <label className='font-bold'>Alamat</label>
+              <textarea placeholder='Alamat' className='bg-gray-50 px-4 py-2' onChange={(e) => setAddress({...address, fullAddress: e.target.value})}/>
+            </div>
+
             <div className='flex flex-col gap-2'>
               <label className='font-bold'>Provinsi</label>
               <select onChange={(e) => {setAddress({...address, province_id: e.target.value, province: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getCity(e.target.value);}} className='w-full px-4 py-2 bg-gray-50 rounded'>
                 <option defaultValue={'DEFAULT'}>{loadingProvince? 'Loading...' : 'Pilih Provinsi'}</option>
                 {provinces.map((val, index) => 
-                <option key={index} value={val.province_id} name={val.province}>{val.province}</option>
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
                 )}
               </select>
             </div>
 
             <div className='flex flex-col gap-1'>
             <label className='font-bold'>Kabupaten/Kota</label>
-              <select onChange={(e) => setAddress({...address, city_id: e.target.value, city_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")})} className='w-full px-4 py-2 bg-gray-50 rounded'>
+              <select onChange={(e) => {setAddress({...address, city_id: e.target.value, city_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getDistrict(e.target.value)}} className='w-full px-4 py-2 bg-gray-50 rounded'>
                 <option defaultValue={'DEFAULT'}>{loadingCity? 'Loading...' : 'Pilih Kabupaten/Kota'}</option>
                 {city.map((val, index) => 
-                <option key={index} value={val.city_id} name={val.city_name}>{val.city_name}</option>
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
                 )}
               </select>
             </div>
+
             <div className='flex flex-col gap-1'>
-              <label className='font-bold'>Alamat Lengkap</label>
-              <textarea placeholder='Alamat Lengkap' className='bg-gray-50 px-4 py-2' onChange={(e) => setAddress({...address, fullAddress: e.target.value})}/>
+            <label className='font-bold'>Kecamatan</label>
+              <select onChange={(e) => {setAddress({...address, district_id: e.target.value, district_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getVillage(e.target.value)}} className='w-full px-4 py-2 bg-gray-50 rounded'>
+                <option defaultValue={'DEFAULT'}>{loadingDistrict? 'Loading...' : 'Pilih Kecamatan'}</option>
+                {district.map((val, index) => 
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
+                )}
+              </select>
             </div>
+
+            <div className='flex flex-col gap-1'>
+            <label className='font-bold'>Kelurahan</label>
+              <select onChange={(e) => {setAddress({...address, village_id: e.target.value, village_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")});}} className='w-full px-4 py-2 bg-gray-50 rounded'>
+                <option defaultValue={'DEFAULT'}>{loadingVillage? 'Loading...' : 'Pilih Kelurahan'}</option>
+                {village.map((val, index) => 
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
+                )}
+              </select>
+            </div>
+
+            <div className='flex flex-col gap-1'>
+              <label className='font-bold'>Kode Pos</label>
+              <input type={'number'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Kode Pos' onChange={(e) => setAddress({...address, postCode: e.target.value})}/>
+            </div>
+
           </div>
       </div>
         
-      {/* <div className='bg-white rounded p-2 drop-shadow-md'>
-        <p className='font-bold text-lg'>METODE PENGIRIMAN</p>
-        {loadingShippingPrice&&<p>Loading...</p>}
-        <div className='flex flex-wrap items-center gap-2 overflow-x-auto p-1'>
-          {shippingPrice.length!==0&&shippingPrice[0].costs.map((val, index) => 
-              <div className="relative w-full" key={index}>
-                  <input onClick={(e) => setShippingPriceSelected(e.target.value)} className="sr-only peer" type="radio" value={val.cost[0].value} name="variant" id={val.cost[0].value}/>
-                  <label className="flex p-2 bg-white border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:bg-yellow-50 peer-checked:ring-2 peer-checked:border-transparent" htmlFor={val.cost[0].value}>
-                    <div className='flex flex-col w-8/12'>
-                      <p className='font-bold'>{val.service}</p>
-                      <p className='truncate'>{val.description}</p>
-                    </div>
-                    <div className='flex flex-col text-end w-4/12'>
-                      <p className='font-bold'>{getCurrency(val.cost[0].value)}</p>
-                      <p>{`${val.cost[0].etd} hari`}</p>
-                    </div>
-                  </label>
-              </div>
-          )}
-        </div>      
-      </div> */}
-        
-      <div className='bg-white rounded p-2 drop-shadow-md mb-48'>
-        <p className='font-bold text-lg'>DETAIL TRANSAKSI</p>
+      <div className='bg-white rounded-lg p-4 drop-shadow-md mb-48'>
+        <p className='font-bold text-lg mb-2'>DETAIL TRANSAKSI</p>
         <div className='flex flex-col divide-y'>
           {cart.map((val, index) =>
             <div className='flex w-full items-center p-1 gap-2' key={index}>

@@ -14,6 +14,9 @@ const Button = ({type, size, onclick, label}) => {
         type === 'link' ?
             'text-blue-500 underline'
         :
+        type === 'disable'?
+            'text-white bg-yellow-300 border border-yellow-300 px-3 py-1 font-bold w-full rounded-full'
+        :
             ''
     }
 

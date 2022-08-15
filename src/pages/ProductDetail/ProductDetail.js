@@ -73,7 +73,7 @@ const ProductDetail = () => {
                 <div className='bg-white flex flex-col rounded px-2 py-1 gap-1 drop-shadow'>
                     {productDetail.attributes.variants.data.length > 1 ?
                         <div> 
-                            <p className='font-bold'>Variasi: </p>
+                            <p className='font-bold'>Pilih Variasi: </p>
                             <div className='flex flex-wrap items-center gap-2 overflow-x-auto p-1'>
                                 {productDetail.attributes.variants.data.map((val, index) => 
                                     <div className="relative" key={index}>
