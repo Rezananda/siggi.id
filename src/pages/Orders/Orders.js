@@ -4,17 +4,22 @@ import Button from '../../components/Button/Button'
 import TopNavbar from '../../components/Navbar/TopNavbar'
 import Stepper from '../../components/Stepper/Stepper'
 import { Cart, getCartItems } from '../../context/CartContext'
+import { JwtAuth } from '../../context/JwtContext'
 import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 import Confirmation from './Confirmation/Confirmation'
 import Input from './Input/Input'
 import Result from './Result/Result'
+import {v4 as uuid} from 'uuid'
+import Cookies from 'js-cookie'
 
 const Orders = () => {
   const {cart, setCart} = useContext(Cart)
+  const {jwt} = useContext(JwtAuth)
   const [provinces, setProvinces] = useState([])
   const [city, setCity] = useState([])
   const [district, setDistrict] = useState([])
   const [village, setVillage] = useState([])
+  const [order, setOrder] = useState()
   const [address, setAddress] = useState({
     order: cart,
     priceTotal: cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) : parseInt(val.variant_price)) * val.qty), 0)
@@ -23,10 +28,11 @@ const Orders = () => {
   const [loadingCity, setLoadingCity] = useState(false)
   const [loadingDistrict, setLoadingDistrict] = useState(false)
   const [loadingVillage, setLoadingVillage] = useState(false)
+  const [loadingAddOrder, setLoadingAddOrder] = useState(false)
   const [step, setStep] = useState(1)
   const getCurrency = useGetCurrency()
 
-  console.log(address)
+  console.log(jwt.user.id)
 
   function handleStep(stepPosition){
     if(stepPosition === "prev"){
@@ -90,6 +96,34 @@ const Orders = () => {
       setLoadingVillage(false)
     })
   }
+
+  const handleSaveOrder = () => {
+    setLoadingAddOrder(true)
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
+      data: {
+        name: address.name,
+        phone_number: address.phoneNumber,
+        address: `${address.fullAddress}, ${address.village_name}, ${address.district_name}, ${address.city_name}, ${address.district_name}, ${address.postCode}`,
+        detail_order: address.order,
+        price_total: address.priceTotal,
+        transaction_id: uuid(),
+        status: 'Menunggu Pembayaran',
+        user: jwt.user.id
+      }
+    }, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization :`Bearer ${jwt.jwt}`
+        }
+    }).then(response => {
+      console.log(response.data)
+      setOrder(response.data)
+      setLoadingAddOrder(false)
+    }).catch(err => {
+      console.log(err.message)
+      setLoadingAddOrder(false)
+    })
+  }
   
   const handleSendOrder = () => {
     let text = `
@@ -109,14 +143,14 @@ const Orders = () => {
 
     let phoneNumberDestination = '6281259672716'
     window.open(`https://api.whatsapp.com/send?phone=${phoneNumberDestination}&text=${text}`)
-    localStorage.removeItem('carts')
+    Cookies.remove('carts')
     setCart(getCartItems())
   }
   
 
 
   return (
-    <div className='min-h-screen bg-gray-100'>
+    <div className='min-h-screen bg-gray-50'>
       <TopNavbar label={'Pesanan'}/>
       <div className='px-4 py-2 flex flex-col gap-4'>
         <div className='px-4'>
@@ -126,7 +160,7 @@ const Orders = () => {
         <Input setAddress={setAddress} address={address} provinces={provinces} loadingProvince={loadingProvince} getCity={getCity} city={city} loadingCity={loadingCity} getDistrict={getDistrict} district={district} loadingDistrict={loadingDistrict} getVillage={getVillage} village={village} loadingVillage={loadingVillage} cart={cart}/>
         :
         step === 2 ?
-        <Confirmation address={address} setStep={setStep}/>
+        <Confirmation loadingAddOrder={loadingAddOrder} address={address}/>
         :
         step === 3 ?
         <Result/>
@@ -145,7 +179,7 @@ const Orders = () => {
         </div>
         <div className='flex items-center gap-2'>
             {step===2&&<Button type={'outline'} size={'small'} label={'Kembali'} onclick={() => handleStep('prev')}/>}
-            {step===2&&<Button type={'fill'} size={'small'} label={'Kirim'} onclick={() => {handleSendOrder(); handleStep('next');}}/>}
+            {step===2&&<Button type={'fill'} size={'small'} label={'Kirim'} onclick={async() =>  await Promise.all([handleSaveOrder(), handleSendOrder(), handleStep('next')])}/>}
             {step===1&&Object.keys(address).length === 14&&<Button type={'fill'} size={'small'} label={'Lanjut'} onclick={() => handleStep('next')}/>}
             {step===1&&Object.keys(address).length !== 14&&<Button type={'disable'} size={'small'} label={'Lanjut'}/>}
         </div>

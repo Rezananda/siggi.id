@@ -1,24 +1,13 @@
 import React from 'react'
 import useGetCurrency from '../../../hooks/useGetCurrency/useGetCurrency'
 
-const Confirmation = ({address}) => {
+const Confirmation = ({loadingAddOrder, address}) => {
     const getCurrency = useGetCurrency()
   return (
     <div className='bg-white rounded-lg p-4 drop-shadow-md'>
         <p className='font-bold text-lg mb-2'>KONFIRMASI PESANAN</p>
+        {loadingAddOrder&&<p>Loading...</p>}
         <ul className='flex flex-col divide-y'>
-            <li className='flex flex-col p-1'>
-                <p className='font-bold'>Nama</p>
-                <p className='text-lg'>{address.name}</p>
-            </li>
-            <li className='flex flex-col p-1'>
-                <p className='font-bold'>Nomor Handphone</p>
-                <p className='text-lg'>{address.phoneNumber}</p>
-            </li>
-            <li className='flex flex-col p-1'>
-                <p className='font-bold'>Alamat</p>
-                <p className='text-lg'>{`${address.fullAddress}, ${address.village_name}, ${address.city_name}, ${address.district_name}, ${address.village_name}, ${address.postCode}`}</p>
-            </li>
             <li className='flex flex-col p-1'>
                 <p className='font-bold'>Detail Pesanan</p>
                 <div className='flex flex-col divide-y'>
@@ -47,6 +36,18 @@ const Confirmation = ({address}) => {
                     </div>
                 )}
                 </div>
+            </li>
+            <li className='flex flex-col p-1'>
+                <p className='font-bold'>Nama</p>
+                <p className='text-lg'>{address.name}</p>
+            </li>
+            <li className='flex flex-col p-1'>
+                <p className='font-bold'>Nomor Handphone</p>
+                <p className='text-lg'>{address.phoneNumber}</p>
+            </li>
+            <li className='flex flex-col p-1'>
+                <p className='font-bold'>Alamat</p>
+                <p className='text-lg'>{`${address.fullAddress}, ${address.village_name}, ${address.district_name}, ${address.city_name}, ${address.province}, ${address.postCode}`}</p>
             </li>
         </ul>
     </div>

@@ -64,13 +64,13 @@ const ProductDetail = () => {
             :
             <div className='p-4 flex flex-col gap-2'>
                 <HeroImage type={'productDetail'} productDetail={productDetail}/>
-                <div className='bg-white flex flex-col rounded px-2 py-1 drop-shadow'>
+                <div className='bg-white flex flex-col rounded-lg px-2 py-1 drop-shadow-md'>
                     <div className='flex flex-col gap-1'>
                         <p className='text-lg w-full text-gray-600'>{productDetail.attributes.name}</p>
                     </div>
                 </div>
 
-                <div className='bg-white flex flex-col rounded px-2 py-1 gap-1 drop-shadow'>
+                <div className='bg-white flex flex-col rounded-lg px-2 py-1 gap-1 drop-shadow-md'>
                     {productDetail.attributes.variants.data.length > 1 ?
                         <div> 
                             <p className='font-bold'>Pilih Variasi: </p>
@@ -84,7 +84,7 @@ const ProductDetail = () => {
                             </div>      
                             <div>
                                 {selectedVariant === undefined ? 
-                                <p className='font-bold text-2xl'>{getCurrency(0)}</p> 
+                                <p className='font-bold text-2xl'>{getCurrency(productDetail.attributes.variants.data[0].attributes.variant_price)}</p> 
                                 :
                                 <>
                                 {selectedVariant.attributes.is_discount_variant ? 
@@ -111,13 +111,13 @@ const ProductDetail = () => {
                     }
                 </div>
 
-                <div className='bg-white flex flex-col rounded px-2 py-1 gap-1 drop-shadow'>
+                <div className='bg-white flex flex-col rounded-lg px-2 py-1 gap-1 drop-shadow-md mb-28'>
                     <p className='font-bold'>Deskripsi</p>
                     <p>{productDetail.attributes.description}</p>
                 </div>
             </div>
         }
-        <div className='flex items-center p-2 fixed bottom-0 left-0 right-0 bg-white rounded-t-lg'>
+        <div className='flex items-center p-4 fixed bottom-0 left-0 right-0 bg-white rounded-t'>
             <button className='flex items-center justify-center bg-yellow-500 border border-yellow-500 w-full p-2 rounded-full text-white font-bold disabled:bg-yellow-100 disabled:border-yellow-100' disabled={variant === '-' ? true: false} onClick={() => handleAddToCarts()}>
                 Tambah ke Keranjang         
             </button>

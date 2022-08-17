@@ -78,7 +78,7 @@ const Carts = () => {
                             variant_discount: val.variant_discount,
                             variant_price_final: parseInt(val.variant_price_final
                         )})}>-</button>
-                        <p className='font-bold'>{val.qty}</p>
+                        <p>{val.qty}</p>
                         <button className='flex p-2 items-center border border-yellow-500 bg-yellow-500 text-white rounded' onClick={() => addToCart({...cart,
                             id: val.id,
                             name: val.name,
@@ -95,7 +95,7 @@ const Carts = () => {
             </div>
             {cart.length === 0 && <p className='flex items-center justify-center'>Belum ada produk di keranjang</p>}
         </div>
-        <div className='flex items-center w-full justify-between fixed bottom-0 left-0 right-0 px-2 py-4 bg-white border-t border-gray-100'>
+        <div className='flex items-center drop-shadow-lg w-full justify-between fixed bottom-0 left-0 right-0 px-2 py-4 bg-white'>
             <div className='flex flex-col'>
                 <div className='flex gap-1 items-center'>
                     <p className='text-lg'>TOTAL :</p>

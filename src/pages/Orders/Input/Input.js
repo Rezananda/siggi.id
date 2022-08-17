@@ -6,71 +6,6 @@ const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, 
   return (
     <>
       <div className='bg-white rounded-lg p-4 drop-shadow-md'>
-          <p className='font-bold text-lg mb-2'>DATA PESANAN</p>
-          <div className='flex flex-col gap-2'>
-            <div className='flex flex-col gap-1'>
-              <label className='font-bold'>Nama Lengkap</label>
-              <input type={'text'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Nama Lengkap' onChange={(e) => setAddress({...address, name: e.target.value})}/>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <label className='font-bold'>Nomor Handphone</label>
-              <input type={'number'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Nomor Handphone' onChange={(e) => setAddress({...address, phoneNumber: e.target.value})}/>
-            </div>
-
-            <div className='flex flex-col gap-1'>
-              <label className='font-bold'>Alamat</label>
-              <textarea placeholder='Alamat' className='bg-gray-50 px-4 py-2' onChange={(e) => setAddress({...address, fullAddress: e.target.value})}/>
-            </div>
-
-            <div className='flex flex-col gap-2'>
-              <label className='font-bold'>Provinsi</label>
-              <select onChange={(e) => {setAddress({...address, province_id: e.target.value, province: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getCity(e.target.value);}} className='w-full px-4 py-2 bg-gray-50 rounded'>
-                <option defaultValue={'DEFAULT'}>{loadingProvince? 'Loading...' : 'Pilih Provinsi'}</option>
-                {provinces.map((val, index) => 
-                <option key={index} value={val.id} name={val.name}>{val.name}</option>
-                )}
-              </select>
-            </div>
-
-            <div className='flex flex-col gap-1'>
-            <label className='font-bold'>Kabupaten/Kota</label>
-              <select onChange={(e) => {setAddress({...address, city_id: e.target.value, city_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getDistrict(e.target.value)}} className='w-full px-4 py-2 bg-gray-50 rounded'>
-                <option defaultValue={'DEFAULT'}>{loadingCity? 'Loading...' : 'Pilih Kabupaten/Kota'}</option>
-                {city.map((val, index) => 
-                <option key={index} value={val.id} name={val.name}>{val.name}</option>
-                )}
-              </select>
-            </div>
-
-            <div className='flex flex-col gap-1'>
-            <label className='font-bold'>Kecamatan</label>
-              <select onChange={(e) => {setAddress({...address, district_id: e.target.value, district_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getVillage(e.target.value)}} className='w-full px-4 py-2 bg-gray-50 rounded'>
-                <option defaultValue={'DEFAULT'}>{loadingDistrict? 'Loading...' : 'Pilih Kecamatan'}</option>
-                {district.map((val, index) => 
-                <option key={index} value={val.id} name={val.name}>{val.name}</option>
-                )}
-              </select>
-            </div>
-
-            <div className='flex flex-col gap-1'>
-            <label className='font-bold'>Kelurahan</label>
-              <select onChange={(e) => {setAddress({...address, village_id: e.target.value, village_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")});}} className='w-full px-4 py-2 bg-gray-50 rounded'>
-                <option defaultValue={'DEFAULT'}>{loadingVillage? 'Loading...' : 'Pilih Kelurahan'}</option>
-                {village.map((val, index) => 
-                <option key={index} value={val.id} name={val.name}>{val.name}</option>
-                )}
-              </select>
-            </div>
-
-            <div className='flex flex-col gap-1'>
-              <label className='font-bold'>Kode Pos</label>
-              <input type={'number'} className='px-4 py-2 bg-gray-50 rounded' placeholder='Kode Pos' onChange={(e) => setAddress({...address, postCode: e.target.value})}/>
-            </div>
-
-          </div>
-      </div>
-        
-      <div className='bg-white rounded-lg p-4 drop-shadow-md mb-48'>
         <p className='font-bold text-lg mb-2'>DETAIL TRANSAKSI</p>
         <div className='flex flex-col divide-y'>
           {cart.map((val, index) =>
@@ -98,6 +33,71 @@ const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, 
             </div>
           )}
         </div>
+      </div>
+
+      <div className='bg-white rounded-lg p-4 drop-shadow-md mb-48'>
+          <p className='font-bold text-lg mb-2'>DATA PESANAN</p>
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-1'>
+              <label className='font-bold'>Nama Lengkap</label>
+              <input type={'text'} className='px-4 py-2 bg-gray-50 rounded-lg border border-gray-200' placeholder='Nama Lengkap' onChange={(e) => setAddress({...address, name: e.target.value})}/>
+            </div>
+            <div className='flex flex-col gap-1'>
+              <label className='font-bold'>Nomor Handphone</label>
+              <input type={'number'} className='px-4 py-2 bg-gray-50 rounded-lg border border-gray-200' placeholder='Nomor Handphone' onChange={(e) => setAddress({...address, phoneNumber: e.target.value})}/>
+            </div>
+
+            <div className='flex flex-col gap-1'>
+              <label className='font-bold'>Alamat</label>
+              <textarea placeholder='Alamat' className='bg-gray-50 px-4 py-2 rounded-lg border border-gray-200' onChange={(e) => setAddress({...address, fullAddress: e.target.value})}/>
+            </div>
+
+            <div className='flex flex-col gap-2'>
+              <label className='font-bold'>Provinsi</label>
+              <select onChange={(e) => {setAddress({...address, province_id: e.target.value, province: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getCity(e.target.value);}} className='w-full px-4 py-2 bg-gray-50 rounded-lg border border-gray-200'>
+                <option defaultValue={'DEFAULT'}>{loadingProvince? 'Loading...' : 'Pilih Provinsi'}</option>
+                {provinces.map((val, index) => 
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
+                )}
+              </select>
+            </div>
+
+            <div className='flex flex-col gap-1'>
+            <label className='font-bold'>Kabupaten/Kota</label>
+              <select onChange={(e) => {setAddress({...address, city_id: e.target.value, city_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getDistrict(e.target.value)}} className='w-full px-4 py-2 bg-gray-50 rounded-lg border border-gray-200'>
+                <option defaultValue={'DEFAULT'}>{loadingCity? 'Loading...' : 'Pilih Kabupaten/Kota'}</option>
+                {city.map((val, index) => 
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
+                )}
+              </select>
+            </div>
+
+            <div className='flex flex-col gap-1'>
+            <label className='font-bold'>Kecamatan</label>
+              <select onChange={(e) => {setAddress({...address, district_id: e.target.value, district_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")}); getVillage(e.target.value)}} className='w-full px-4 py-2 bg-gray-50 rounded-lg border border-gray-200'>
+                <option defaultValue={'DEFAULT'}>{loadingDistrict? 'Loading...' : 'Pilih Kecamatan'}</option>
+                {district.map((val, index) => 
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
+                )}
+              </select>
+            </div>
+
+            <div className='flex flex-col gap-1'>
+            <label className='font-bold'>Kelurahan</label>
+              <select onChange={(e) => {setAddress({...address, village_id: e.target.value, village_name: e.target.childNodes[e.target.selectedIndex].getAttribute("name")});}} className='w-full px-4 py-2 bg-gray-50 rounded-lg border border-gray-200'>
+                <option defaultValue={'DEFAULT'}>{loadingVillage? 'Loading...' : 'Pilih Kelurahan'}</option>
+                {village.map((val, index) => 
+                <option key={index} value={val.id} name={val.name}>{val.name}</option>
+                )}
+              </select>
+            </div>
+
+            <div className='flex flex-col gap-1'>
+              <label className='font-bold'>Kode Pos</label>
+              <input type={'number'} className='px-4 py-2 bg-gray-50 rounded-lg border border-gray-200' placeholder='Kode Pos' onChange={(e) => setAddress({...address, postCode: e.target.value})}/>
+            </div>
+
+          </div>
       </div>
     </>
   )

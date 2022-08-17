@@ -8,6 +8,7 @@ import Carts from './pages/Carts/Carts';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Orders from './pages/Orders/Orders';
+import OrderStatus from './pages/OrderStatus/OrderStatus';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Registration from './pages/Registration/Registration';
 
@@ -25,6 +26,7 @@ function App() {
               <Route path='/carts' element={<Carts/>}/>
               <Route element={<PrivateRoute/>}>
                 <Route path='/orders' element={<Orders/>}/>
+                <Route path='/order-status' element={<OrderStatus/>}/>
               </Route>
             </Routes>
           </BrowserRouter>

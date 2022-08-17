@@ -7,7 +7,7 @@ import Typography from '../Typography/Typography'
 
 const Category = () => {
   return (
-    <div className='bg-yellow-50 py-4'>
+    <div className='py-4'>
         <div className='flex items-center justify-between px-4'>
             <Typography size={'xl'} label={'KATEGORI'} width={'w-28'}/>
         </div>

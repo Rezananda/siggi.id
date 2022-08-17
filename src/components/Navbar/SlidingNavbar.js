@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { JwtAuth } from '../../context/JwtContext'
 import useLogout from '../../hooks/useLogout/useLogout'
 import Button from '../Button/Button'
@@ -106,6 +106,11 @@ const SlidingNavbar = ({slideNavbar, setSlideNavbar}) => {
                         {
                             slidingDown.userAuth&&jwt !== undefined&&
                             <ul className='flex flex-col ml-4 text-sm gap-4'>
+                                <li>
+                                    <button className='text-start' onClick={() => navigate('/order-status')}>
+                                        <p>STATUS PESANAN</p>
+                                    </button>
+                                </li>
                                 <li>
                                     <button className='text-start' onClick={() => getLogout()}>
                                         <p>LOGOUT</p>

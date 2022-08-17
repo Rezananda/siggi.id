@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import Icon from '../../components/Icon/Icon'
 import { JwtAuth } from '../../context/JwtContext'
+import Cookies from 'js-cookie'
 
 const Login = () => {
     const navigate = useNavigate()
@@ -21,7 +22,9 @@ const Login = () => {
                 identifier:login.email,
                 password:login.password
             }).then(response => {
-                localStorage.setItem('jwtSiggi', JSON.stringify(response.data))
+                // localStorage.setItem('jwtSiggi', JSON.stringify(response.data))
+                Cookies.remove('user', {path: '/'})
+                Cookies.set('user', JSON.stringify(response.data), {expires: 30, path: '/'})
                 setJwt(response.data)
                 navigate(location.state === null ? '/' : location.state.prevLoc.pathname)
                 setLoading(false)

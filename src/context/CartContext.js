@@ -1,7 +1,9 @@
+import Cookies from 'js-cookie'
 import React, { createContext, useEffect, useState } from 'react'
 
 export const getCartItems = () => {
-    return localStorage.getItem('carts') ? JSON.parse(localStorage.getItem("carts")) : []
+    // return localStorage.getItem('carts') ? JSON.parse(localStorage.getItem("carts")) : []
+    return Cookies.get('carts')  ? JSON.parse(Cookies.get("carts")) : []
 }
 
 export const Cart = createContext()
@@ -29,7 +31,8 @@ const CartContext = ({children}) => {
     }
 
     useEffect(() => {
-        localStorage.setItem('carts', JSON.stringify(cart))
+        // localStorage.setItem('carts', JSON.stringify(cart))
+        Cookies.set('carts', JSON.stringify(cart))
     }, [cart])
     
 
