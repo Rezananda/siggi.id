@@ -60,7 +60,7 @@ const PromoProduct = () => {
                       <CardProduct name={val.attributes.name} price={val.attributes.price} is_discount={val.attributes.is_discount} discount={val.attributes.discount} image={val.attributes.image.data[0].attributes.formats.large.url}/>
                     </SwiperSlide>
                   )} */}
-                  {products.map((val, index) => 
+                  {products.filter(el => el.attributes.variants.data.some(subEl => subEl.attributes.is_discount_variant === true)).map((val, index) => 
                     <SwiperSlide className='px-2 pb-4' key={index}>
                       <CardProduct productId={val.id} name={val.attributes.name} variants={val.attributes.variants.data} image={val.attributes.image.data[0].attributes.formats.large.url}/>
                     </SwiperSlide>

@@ -53,7 +53,7 @@ const Voucher = () => {
                         > 
                             {voucher.map((val, index) => (
                                 <SwiperSlide className='px-2 pb-4' key={index}>
-                                    <CardVoucher key={index} name={val.attributes.name} description={val.attributes.description} startDate={val.attributes.start_date} endDate={val.attributes.end_date}/>
+                                    <CardVoucher key={index} val={val.attributes} id={val.id}/>
                                 </SwiperSlide>
                             ))}
                         <ArrowNavigation next={'next'} prev={'prev'}/>

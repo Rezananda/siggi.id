@@ -17,6 +17,8 @@ const ProductDetail = () => {
     const getCurrency = useGetCurrency()
     const selectedVariant = productDetail.attributes.variants.data.find(x => x.attributes.variant_name === variant)
 
+    console.log(productDetail)
+
     const handleAddToCarts = () => {
         if(addCarts < 0){
             return
@@ -58,19 +60,17 @@ const ProductDetail = () => {
     
   return (
     <div className='min-h-screen bg-gray-50'>
-        <TopNavbar withCart={true}/>
+        <TopNavbar withCart={true} route={'/'} label={'Detail Produk'}/>
         {loading ?        
             <p>Loading...</p>
             :
             <div className='p-4 flex flex-col gap-2'>
                 <HeroImage type={'productDetail'} productDetail={productDetail}/>
-                <div className='bg-white flex flex-col rounded-lg px-2 py-1 drop-shadow-md'>
-                    <div className='flex flex-col gap-1'>
-                        <p className='text-lg w-full text-gray-600'>{productDetail.attributes.name}</p>
-                    </div>
+                <div className='bg-white flex flex-col rounded-lg p-4 drop-shadow-md gap-1'>
+                    <p className='text-lg w-full text-gray-600'>{productDetail.attributes.name}</p>
                 </div>
 
-                <div className='bg-white flex flex-col rounded-lg px-2 py-1 gap-1 drop-shadow-md'>
+                <div className='bg-white flex flex-col rounded-lg p-4 gap-1 drop-shadow-md'>
                     {productDetail.attributes.variants.data.length > 1 ?
                         <div> 
                             <p className='font-bold'>Pilih Variasi: </p>
@@ -84,7 +84,18 @@ const ProductDetail = () => {
                             </div>      
                             <div>
                                 {selectedVariant === undefined ? 
-                                <p className='font-bold text-2xl'>{getCurrency(productDetail.attributes.variants.data[0].attributes.variant_price)}</p> 
+                                <>{
+                                    productDetail.attributes.variants.data[0].attributes.is_discount_variant ? 
+                                    <div>
+                                        <p className='font-bold text-2xl text-red-500'>{getCurrency(parseInt(productDetail.attributes.variants.data[0].attributes.variant_price) - (parseInt(productDetail.attributes.variants.data[0].attributes.variant_price) * parseInt(productDetail.attributes.variants.data[0].attributes.variant_discount) / 100))}</p>
+                                        <div className='flex items-center gap-2'>
+                                            <span className='bg-red-100 text-red-500 font-bold px-1 rounded'>{productDetail.attributes.variants.data[0].attributes.variant_discount}%</span>
+                                        <p className='text-gray-400 line-through'>{getCurrency(productDetail.attributes.variants.data[0].attributes.variant_price)}</p>
+                                    </div>
+                                    </div>
+                                    :
+                                    <p className='font-bold text-2xl'>{getCurrency(parseInt(productDetail.attributes.variants.data[0].attributes.variant_price))}</p>
+                                }</> 
                                 :
                                 <>
                                 {selectedVariant.attributes.is_discount_variant ? 
@@ -107,13 +118,13 @@ const ProductDetail = () => {
                             </div>
                         </div>   
                         :
-                        <p className='font-bold text-center'>{getCurrency(productDetail.attributes.price)}</p>
+                        <p className='font-bold text-2xl'>{getCurrency(productDetail.attributes.variants.data[0].attributes.variant_price)}</p>
                     }
                 </div>
 
-                <div className='bg-white flex flex-col rounded-lg px-2 py-1 gap-1 drop-shadow-md mb-28'>
+                <div className='bg-white flex flex-col rounded-lg p-4 gap-1 drop-shadow-md mb-28'>
                     <p className='font-bold'>Deskripsi</p>
-                    <p>{productDetail.attributes.description}</p>
+                    <pre className='flex overflow-hidden'>{productDetail.attributes.description}</pre>
                 </div>
             </div>
         }

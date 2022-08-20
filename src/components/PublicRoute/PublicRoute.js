@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { UserAuth } from '../../context/UserContext'
+import { JwtAuth } from '../../context/JwtContext'
 
 const PublicRoute = () => {
-    const userAuth = useContext(UserAuth)
-    if(userAuth.jwt){
+  const {jwt} = useContext(JwtAuth)
+    if(jwt){
         return <Navigate to={'/'}/>
     }
   return <Outlet/>

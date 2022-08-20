@@ -1,7 +1,7 @@
 import React from 'react'
 import useGetCurrency from '../../../hooks/useGetCurrency/useGetCurrency'
 
-const Confirmation = ({loadingAddOrder, address}) => {
+const Confirmation = ({loadingAddOrder, address, voucher}) => {
     const getCurrency = useGetCurrency()
   return (
     <div className='bg-white rounded-lg p-4 drop-shadow-md'>
@@ -49,6 +49,14 @@ const Confirmation = ({loadingAddOrder, address}) => {
                 <p className='font-bold'>Alamat</p>
                 <p className='text-lg'>{`${address.fullAddress}, ${address.village_name}, ${address.district_name}, ${address.city_name}, ${address.province}, ${address.postCode}`}</p>
             </li>
+            {voucher.length === 1&&            
+             <li className='flex flex-col p-1'>
+                <p className='font-bold'>Voucher</p>
+                <div className='bg-yellow-50 border border-yellow-500 text-yellow-500 px-4 py-2 rounded-lg text-lg'>
+                    {voucher[0].attributes.name}
+                </div>
+            </li>
+            }
         </ul>
     </div>
   )

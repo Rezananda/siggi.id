@@ -1,11 +1,12 @@
+import Cookies from 'js-cookie'
 import React, { useContext } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { JwtAuth } from '../../context/JwtContext'
 
 const PrivateRoute = () => {
-    const {jwt} = useContext(JwtAuth)
     const prevLoc = useLocation()
-    if(!jwt){
+    const theJwt = JSON.parse(Cookies.get('user') || "{}" )
+    if(Object.keys(theJwt).length === 0){
+        console.log('masok')
         return <Navigate to={ '/login'} state={{prevLoc:prevLoc}}/>
     }
     return <Outlet/>

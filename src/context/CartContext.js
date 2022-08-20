@@ -32,7 +32,7 @@ const CartContext = ({children}) => {
 
     useEffect(() => {
         // localStorage.setItem('carts', JSON.stringify(cart))
-        Cookies.set('carts', JSON.stringify(cart))
+        Cookies.set('carts', JSON.stringify(cart), {expires: 30, path: '/'})
     }, [cart])
     
 

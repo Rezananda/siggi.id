@@ -51,7 +51,7 @@ const SlidingNavbar = ({slideNavbar, setSlideNavbar}) => {
                         }
                     </li>
                     <li>
-                        <p className='text-lg'>PESANAN SAYA</p>
+                        <p className='text-lg' onClick={() => navigate('/order-status')}>STATUS PESANAN</p>
                     </li>
                     <li>
                         <div className='flex items-center gap-2'>
@@ -106,11 +106,6 @@ const SlidingNavbar = ({slideNavbar, setSlideNavbar}) => {
                         {
                             slidingDown.userAuth&&jwt !== undefined&&
                             <ul className='flex flex-col ml-4 text-sm gap-4'>
-                                <li>
-                                    <button className='text-start' onClick={() => navigate('/order-status')}>
-                                        <p>STATUS PESANAN</p>
-                                    </button>
-                                </li>
                                 <li>
                                     <button className='text-start' onClick={() => getLogout()}>
                                         <p>LOGOUT</p>

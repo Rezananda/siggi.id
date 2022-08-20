@@ -1,55 +1,22 @@
-import axios from 'axios'
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import TopNavbar from '../../components/Navbar/TopNavbar'
 import { Cart } from '../../context/CartContext'
-import { JwtAuth } from '../../context/JwtContext'
 import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 
 const Carts = () => {
     const {cart, addToCart, removeToCart} = useContext(Cart)
-    // const {jwt} = useContext(JwtAuth)
     const navigate = useNavigate()
     const getCurrency = useGetCurrency()
-    // const [loading, setLoading] = useState(false)
-
-    // const handleOrder = () => {
-    //     setLoading(true)
-    //     try {
-    //         axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
-    //             "data": {
-    //               "price_total": cart.reduce((acc, val) => acc + ((val.is_discount_variant ? parseInt(val.variant_price_final) : parseInt(val.variant_price)) * val.qty), 0),
-    //               "detail_order": cart,
-    //               "status": "In Progress",
-    //             }
-    //           }, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 Authorization :`Bearer ${jwt.jwt}`
-    //             }
-    //         }).then(response => {
-    //             console.log(response.data)
-    //             navigate('/orders', {state: {order: response.data}})
-    //             setLoading(false)
-    //         }).catch(error => {
-    //             console.log(error.message)
-    //             setLoading(false)
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //         setLoading(false)
-    //     }
-    // }
-
 
   return (
     <div className='min-h-screen bg-gray-50'>
-        <TopNavbar label={'Keranjang'}/>
+        <TopNavbar label={'Keranjang'} route={'/'}/>
         <div className='p-4'>
             <div className='w-full flex flex-col gap-2'>
                 {cart.map((val, index) => 
-                <div className='w-full flex items-center bg-white rounded-md drop-shadow-lg px-3 py-1 gap-2' key={index}>
+                <div className='w-full flex items-center bg-white rounded-md drop-shadow-md px-3 py-1 gap-2' key={index}>
                     <div className='w-2/12 truncate overflow-hidden rounded'>
                         <img src={`${process.env.REACT_APP_BASE_URL}${val.image}`} alt={val.name}/>
                     </div>
@@ -104,7 +71,11 @@ const Carts = () => {
                 <p className='text-xs'>*Belum Termasuk Ongkos Kirim</p>
             </div>
             <div>
+                {cart.length === 0 ?
+                <Button type={'disable'} size={'small'} label={'Checkout'}/>
+                :
                 <Button type={'fill'} size={'small'} label={'Checkout'} onclick={() => navigate('/orders')}/>
+                }
             </div>
         </div>
     </div>

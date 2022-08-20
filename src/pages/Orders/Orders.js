@@ -29,10 +29,9 @@ const Orders = () => {
   const [loadingDistrict, setLoadingDistrict] = useState(false)
   const [loadingVillage, setLoadingVillage] = useState(false)
   const [loadingAddOrder, setLoadingAddOrder] = useState(false)
+  const [voucher, setVocher] = useState([])
   const [step, setStep] = useState(1)
   const getCurrency = useGetCurrency()
-
-  console.log(jwt.user.id)
 
   function handleStep(stepPosition){
     if(stepPosition === "prev"){
@@ -97,6 +96,15 @@ const Orders = () => {
     })
   }
 
+  const handlCheckVoucher = (value) => {
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers?filters[voucher_code][$eq]=${value}`).
+    then(response => {
+      setVocher(response.data.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   const handleSaveOrder = () => {
     setLoadingAddOrder(true)
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
@@ -107,8 +115,9 @@ const Orders = () => {
         detail_order: address.order,
         price_total: address.priceTotal,
         transaction_id: uuid(),
-        status: 'Menunggu Pembayaran',
-        user: jwt.user.id
+        order_status: 1,
+        user: jwt.user.id,
+        voucher: voucher[0].id
       }
     }, {
         headers: {
@@ -151,16 +160,16 @@ const Orders = () => {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      <TopNavbar label={'Pesanan'}/>
+      <TopNavbar label={'Pesanan'} route={'/carts'}/>
       <div className='px-4 py-2 flex flex-col gap-4'>
         <div className='px-4'>
           <Stepper step={step}/>
         </div>
         {step === 1 ?
-        <Input setAddress={setAddress} address={address} provinces={provinces} loadingProvince={loadingProvince} getCity={getCity} city={city} loadingCity={loadingCity} getDistrict={getDistrict} district={district} loadingDistrict={loadingDistrict} getVillage={getVillage} village={village} loadingVillage={loadingVillage} cart={cart}/>
+        <Input setAddress={setAddress} address={address} provinces={provinces} loadingProvince={loadingProvince} getCity={getCity} city={city} loadingCity={loadingCity} getDistrict={getDistrict} district={district} loadingDistrict={loadingDistrict} getVillage={getVillage} village={village} loadingVillage={loadingVillage} cart={cart} handlCheckVoucher={handlCheckVoucher} voucher={voucher} setVocher={setVocher}/>
         :
         step === 2 ?
-        <Confirmation loadingAddOrder={loadingAddOrder} address={address}/>
+        <Confirmation loadingAddOrder={loadingAddOrder} address={address} voucher={voucher}/>
         :
         step === 3 ?
         <Result/>

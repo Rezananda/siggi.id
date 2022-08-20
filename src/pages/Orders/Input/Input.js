@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useGetCurrency from '../../../hooks/useGetCurrency/useGetCurrency';
 
-const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, loadingCity, getDistrict, district, loadingDistrict, getVillage, village, loadingVillage, cart}) => {
+const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, loadingCity, getDistrict, district, loadingDistrict, getVillage, village, loadingVillage, cart, handlCheckVoucher, voucher, setVocher}) => {
   const getCurrency = useGetCurrency()
+  const [getVoucher, setGetVoucher] = useState()
   return (
     <>
       <div className='bg-white rounded-lg p-4 drop-shadow-md'>
@@ -35,7 +36,7 @@ const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, 
         </div>
       </div>
 
-      <div className='bg-white rounded-lg p-4 drop-shadow-md mb-48'>
+      <div className='bg-white rounded-lg p-4 drop-shadow-md'>
           <p className='font-bold text-lg mb-2'>DATA PESANAN</p>
           <div className='flex flex-col gap-2'>
             <div className='flex flex-col gap-1'>
@@ -98,6 +99,26 @@ const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, 
             </div>
 
           </div>
+      </div>
+
+      <div className='bg-white rounded-lg p-4 drop-shadow-md mb-48 flex flex-col gap-2'>
+        <div className='flex items-center justify-between'>
+          <p className='font-bold text-lg'>VOUCHER</p>
+          {voucher.length === 1&&<button className='w-full flex justify-end text-blue-500 underline' onClick={() => setVocher([])}>Hapus</button>}
+        </div>
+        <div>
+          {voucher.length === 1&&
+          <div className='bg-yellow-50 border border-yellow-500 text-yellow-500 px-4 py-2 rounded-lg text-lg'>
+            {voucher[0].attributes.name}
+          </div>
+          }
+          {voucher.length === 0&& 
+            <div className='flex items-center w-full gap-1'>
+              <input type={'text'} className='px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 w-full' onChange={(e) => setGetVoucher(e.target.value)} placeholder='Masukkan Kode Voucher'/>
+              <button className='bg-yellow-500 border border-yellow-500 rounded-lg px-4 py-3 text-white' onClick={() => handlCheckVoucher(getVoucher)}>Tambah</button>
+            </div>
+          }
+        </div>
       </div>
     </>
   )

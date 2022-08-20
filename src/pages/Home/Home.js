@@ -17,7 +17,7 @@ const Home = () => {
       <Voucher/>
       <PromoProduct/>
       <NewProduct/>
-      <Category/>
+      {/* <Category/> */}
     </div>
   )
 }
