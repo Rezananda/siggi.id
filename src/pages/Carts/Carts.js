@@ -18,7 +18,7 @@ const Carts = () => {
                 {cart.map((val, index) => 
                 <div className='w-full flex items-center bg-white rounded-md drop-shadow-md px-3 py-1 gap-2' key={index}>
                     <div className='w-2/12 truncate overflow-hidden rounded'>
-                        <img src={`${process.env.REACT_APP_BASE_URL}${val.image}`} alt={val.name}/>
+                        <img src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${val.image}` : `${val.image}`} alt={val.name}/>
                     </div>
                     <div className='w-6/12'>
                         <p className='truncate'>{val.name}</p>

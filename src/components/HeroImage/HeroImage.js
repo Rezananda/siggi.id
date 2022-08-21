@@ -42,7 +42,7 @@ const HeroImage = ({type, productDetail}) => {
               > 
                   {productDetail.attributes.image.data.map((val, index) => 
                   <SwiperSlide key={index}>
-                      <img className='rounded' src={`${process.env.REACT_APP_BASE_URL}${val.attributes.url}`} alt={val.attributes.caption}/>
+                      <img className='rounded' src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${val.attributes.url}` : `${val.attributes.url}`} alt={val.attributes.caption}/>
                   </SwiperSlide>
                   )}
               <ArrowNavigation next={'next'} prev={'prev'}/>

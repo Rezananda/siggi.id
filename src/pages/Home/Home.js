@@ -1,6 +1,6 @@
-import axios from 'axios'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Category from '../../components/Category/Category'
+import Footer from '../../components/Footer/Footer'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import Navbar from '../../components/Navbar/Navbar'
 import NewProduct from '../../components/NewProduct/NewProduct'
@@ -17,7 +17,8 @@ const Home = () => {
       <Voucher/>
       <PromoProduct/>
       <NewProduct/>
-      {/* <Category/> */}
+      <Category/>
+      <Footer/>
     </div>
   )
 }

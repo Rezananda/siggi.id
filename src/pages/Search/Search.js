@@ -106,28 +106,28 @@ const Search = () => {
                 <div className={`flex flex-col gap-2`}>
                     <p className='font-bold text-gray-500'>Hasil Pencarian:</p>
                     {searchResult.map((val, index) => (
-                        <div className='w-full flex items-center bg-white rounded-md drop-shadow-md p-3 gap-2' key={index}>
+                        <div className='w-full flex items-center bg-white rounded-md drop-shadow-md p-3 gap-2' key={index} onClick={() => navigate(`/product/${val.id}`)}>
                             <div className='w-2/12 truncate overflow-hidden rounded'>
-                                <img src={`${process.env.REACT_APP_BASE_URL}${val.attributes.image.data[0].attributes.url}`} alt={val.attributes.image.data[0].attributes.name}/>
+                                <img src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${val.attributes.image.data[0].attributes.url}` : `${val.attributes.image.data[0].attributes.url}`} alt={val.attributes.image.data[0].attributes.name}></img>
                             </div>
-                        <div className='w-10/12'>
-                            <p className='truncate'>{val.attributes.name}</p>
-                            {val.attributes.variants.data[0].attributes.is_discount_variant ?
-                            <div className='flex flex-col'>
-                                <p className='font-bold text-xs text-red-500'>{getCurrency(Math.min(...val.attributes.variants.data.map(val => parseInt(val.attributes.variant_price) - (parseInt(val.attributes.variant_price) * val.attributes.variant_discount / 100 ))))}</p>
-                                <p className='text-gray-400 text-xs line-through'>{getCurrency(val.attributes.variants.data[0].attributes.variant_price)}</p>
+                            <div className='w-10/12'>
+                                <p className='truncate'>{val.attributes.name}</p>
+                                {val.attributes.variants.data[0].attributes.is_discount_variant ?
+                                <div className='flex flex-col'>
+                                    <p className='font-bold text-xs text-red-500'>{getCurrency(Math.min(...val.attributes.variants.data.map(val => parseInt(val.attributes.variant_price) - (parseInt(val.attributes.variant_price) * val.attributes.variant_discount / 100 ))))}</p>
+                                    <p className='text-gray-400 text-xs line-through'>{getCurrency(val.attributes.variants.data[0].attributes.variant_price)}</p>
+                                </div>
+                                :
+                                <div className='flex items-center gap-2'>
+                                    <p className='font-bold text-center text-sm'>{getCurrency(val.attributes.variants.data[0].attributes.variant_price)}</p>
+                                </div>
+                                }
                             </div>
-                            :
-                            <div className='flex items-center gap-2'>
-                                <p className='font-bold text-center text-sm'>{getCurrency(val.attributes.variants.data[0].attributes.variant_price)}</p>
-                            </div>
-                            }
-                        </div>
                         </div>
                     ))}
                 </div>
             :
-            <p className='text-center text-gray-500'>Belum Ada Produk</p>
+            <p className='text-center text-gray-500'>Belum Ada Pencarian</p>
             }
             </>
             :

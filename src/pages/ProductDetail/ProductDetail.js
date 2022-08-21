@@ -16,9 +16,7 @@ const ProductDetail = () => {
     const [productDetail, setProductDetail] = useState({attributes:{variants:{data:[{attributes:{}}]},image:{data:[]}}})
     const getCurrency = useGetCurrency()
     const selectedVariant = productDetail.attributes.variants.data.find(x => x.attributes.variant_name === variant)
-
-    console.log(productDetail)
-
+    
     const handleAddToCarts = () => {
         if(addCarts < 0){
             return
@@ -57,34 +55,22 @@ const ProductDetail = () => {
         getProductDetail(id)
       }
     }, [id])
-    
+
   return (
     <div className='min-h-screen bg-gray-50'>
-        <TopNavbar withCart={true} route={'/'} label={'Detail Produk'}/>
+        <TopNavbar withCart={true} route={-1} label={'Detail Produk'}/>
         {loading ?        
             <p>Loading...</p>
             :
             <div className='p-4 flex flex-col gap-2'>
-                <HeroImage type={'productDetail'} productDetail={productDetail}/>
-                <div className='bg-white flex flex-col rounded-lg p-4 drop-shadow-md gap-1'>
-                    <p className='text-lg w-full text-gray-600'>{productDetail.attributes.name}</p>
-                </div>
-
-                <div className='bg-white flex flex-col rounded-lg p-4 gap-1 drop-shadow-md'>
+                <div className='bg-white flex flex-col rounded-lg drop-shadow-md overflow-hidden'>
+                    <HeroImage type={'productDetail'} productDetail={productDetail}/>
                     {productDetail.attributes.variants.data.length > 1 ?
-                        <div> 
-                            <p className='font-bold'>Pilih Variasi: </p>
-                            <div className='flex flex-wrap items-center gap-2 overflow-x-auto p-1'>
-                                {productDetail.attributes.variants.data.map((val, index) => 
-                                    <div className="relative" key={index}>
-                                        <input onClick={(e) => setVarian(e.target.value)} className="sr-only peer" type="radio" value={val.attributes.variant_name} name="variant" id={val.attributes.variant_name}/>
-                                        <label className="flex p-2 bg-white border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:bg-yellow-50 peer-checked:ring-2 peer-checked:border-transparent" htmlFor={val.attributes.variant_name}>{val.attributes.variant_name}</label>
-                                    </div>
-                                )}
-                            </div>      
+                        <div className='p-4 flex flex-col gap-2'> 
                             <div>
                                 {selectedVariant === undefined ? 
-                                <>{
+                                <>
+                                {
                                     productDetail.attributes.variants.data[0].attributes.is_discount_variant ? 
                                     <div>
                                         <p className='font-bold text-2xl text-red-500'>{getCurrency(parseInt(productDetail.attributes.variants.data[0].attributes.variant_price) - (parseInt(productDetail.attributes.variants.data[0].attributes.variant_price) * parseInt(productDetail.attributes.variants.data[0].attributes.variant_discount) / 100))}</p>
@@ -115,6 +101,27 @@ const ProductDetail = () => {
                                 }
                                 </>
                                 }
+                            </div>
+                            <p className='text-lg w-full'>{productDetail.attributes.name}</p>
+                            <div>
+                                <p className='font-bold'>Pilih Varian: </p>
+                                <div className='flex flex-wrap items-center gap-2 overflow-x-auto p-1'>
+                                    {productDetail.attributes.variants.data.map((val, index) => 
+                                        <div key={index}>
+                                            {val.attributes.available ?                                     
+                                            <div className="relative">
+                                                <input onClick={(e) => setVarian(e.target.value)} className="sr-only peer" type="radio" value={val.attributes.variant_name} name="variant" id={val.attributes.variant_name}/>
+                                                <label className="flex p-2 bg-white border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:bg-yellow-50 peer-checked:ring-2 peer-checked:border-transparent" htmlFor={val.attributes.variant_name}>{val.attributes.variant_name}</label>
+                                            </div>
+                                            :
+                                            <div className="relative" key={index}>
+                                                <input className="sr-only peer" name="variant"/>
+                                                <label className="flex p-2 bg-gray-100 border border-gray-300 rounded">{val.attributes.variant_name}</label>
+                                            </div>
+                                            }
+                                        </div>
+                                    )}
+                                </div>      
                             </div>
                         </div>   
                         :

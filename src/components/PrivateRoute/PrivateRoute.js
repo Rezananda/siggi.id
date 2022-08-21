@@ -6,7 +6,6 @@ const PrivateRoute = () => {
     const prevLoc = useLocation()
     const theJwt = JSON.parse(Cookies.get('user') || "{}" )
     if(Object.keys(theJwt).length === 0){
-        console.log('masok')
         return <Navigate to={ '/login'} state={{prevLoc:prevLoc}}/>
     }
     return <Outlet/>

@@ -1,78 +1,46 @@
-import React from 'react'
-import piring1 from '../../assets/img/piringkorea1.jpeg'
-import piring2 from '../../assets/img/piringkorea2.jpeg'
-import pirings1 from '../../assets/img/piring1.jpg'
-import pirings2 from '../../assets/img/piring2.jpg'
-import Typography from '../Typography/Typography'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const Category = () => {
+    const [category, setCategory] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        let isMounted = true
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/categories?populate=*`).
+        then(response => {
+            if(isMounted){
+                setCategory(response.data.data)
+                setLoading(false)
+            }
+        }).catch(err => {
+            console.log(err)
+            setLoading(false)
+        })
+        
+        return () => {
+            isMounted = false
+        }
+    }, [])
+    
   return (
-    <div className='py-4'>
-        <div className='flex items-center justify-between px-4'>
-            <Typography size={'xl'} label={'KATEGORI'} width={'w-28'}/>
+    <div className='p-4'>
+        <div className='flex items-center'>
+            <p className='text-xl font-bold'>KATEGORI</p>
         </div>
-        <div className='flex flex-wrap gap-2 px-4'>
-            <div className='max-w-md mx-auto bg-white rounded shadow-md overflow-hidden w-full'>
-                <div className='flex'>
-                    <div className='shrink-0 w-1/3'>
-                        <img src={piring1} alt='piring1' className='h-24 w-full object-cover'/>
-                    </div>
-                    <div className='flex justify-center items-center text-center w-full'>
-                        <p className='text-lg font-bold'>PERLENGKAPAN RUMAH</p>
-                    </div>
+        {loading ? 
+        <p>Loading...</p>
+        :
+        <div className='grid grid-cols-2 gap-4'>
+            {category.map((val, index) => (
+                <div className='relative' key={index}>
+                    <img className='flex overflow-hidden rounded-lg drop-shadow-lg brightness-50' src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${val.attributes.image.data.attributes.url}` : `${val.attributes.image.data.attributes.url}`} alt={val.attributes.image.data.attributes.name}/>
+                    <p className='text-white font-bold text-lg uppercase text-center drop-shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>{val.attributes.name}</p>
                 </div>
-            </div>
-            <div className='max-w-md mx-auto bg-white rounded shadow-md overflow-hidden w-full'>
-                <div className='flex'>
-                    <div className='shrink-0 w-1/3'>
-                        <img src={piring2} alt='piring1' className='h-24 w-full object-cover'/>
-                    </div>
-                    <div className='flex justify-center items-center text-center w-full'>
-                        <p className='text-lg font-bold'>PERLENGKAPAN DAPUR</p>
-                    </div>
-                </div>
-            </div>
-            <div className='max-w-md mx-auto bg-white rounded shadow-md overflow-hidden w-full'>
-                <div className='flex'>
-                    <div className='shrink-0 w-1/3'>
-                        <img src={pirings1} alt='piring1' className='h-24 w-full object-cover'/>
-                    </div>
-                    <div className='flex justify-center items-center text-center w-full'>
-                        <p className='text-lg font-bold'>KARTU UCAPAN</p>
-                    </div>
-                </div>
-            </div>
-            <div className='max-w-md mx-auto bg-white rounded shadow-md overflow-hidden w-full'>
-                <div className='flex'>
-                    <div className='shrink-0 w-1/3'>
-                        <img src={pirings2} alt='piring1' className='h-24 w-full object-cover'/>
-                    </div>
-                    <div className='flex justify-center items-center text-center w-full'>
-                        <p className='text-lg font-bold'>GELAS</p>
-                    </div>
-                </div>
-            </div>
-            <div className='max-w-md mx-auto bg-white rounded shadow-md overflow-hidden w-full'>
-                <div className='flex'>
-                    <div className='shrink-0 w-1/3'>
-                        <img src={piring1} alt='piring1' className='h-24 w-full object-cover'/>
-                    </div>
-                    <div className='flex justify-center items-center text-center w-full'>
-                        <p className='text-lg font-bold'>SENDOK, GARPU, PISAU MAKAN</p>
-                    </div>
-                </div>
-            </div>
-            <div className='max-w-md mx-auto bg-white rounded shadow-md overflow-hidden w-full'>
-                <div className='flex'>
-                    <div className='shrink-0 w-1/3'>
-                        <img src={piring1} alt='piring1' className='h-24 w-full object-cover'/>
-                    </div>
-                    <div className='flex justify-center items-center text-center w-full'>
-                        <p className='text-lg font-bold'>PIRING & MANGKOK</p>
-                    </div>
-                </div>
-            </div>
+            ))}
         </div>
+        }
     </div>
   )
 }

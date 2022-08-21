@@ -9,8 +9,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
 import useBreakpoints from '../../hooks/useBreakpoints/useBreakpoints';
-import Typography from '../Typography/Typography';
-import Button from '../Button/Button';
+import LabelHeader from '../LabelHeader/LabelHeader';
 
 const PromoProduct = () => {
     const [products, setProducts] = useState([])
@@ -39,10 +38,7 @@ const PromoProduct = () => {
   return (
     <div className='flex w-full justify-center'>
         <div className='w-full px-2'>
-            <div className='flex items-center justify-between px-2'>
-              <Typography size={'xl'} label={'PROMO'} width={'w-20'}/>
-              <Button type={'link'} size={'small'} label={'Lihat Semua'} />
-            </div>
+            <LabelHeader label={'PROMO'}/>
             {loading ? 
               <p>Loading..</p>
               :

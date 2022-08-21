@@ -10,8 +10,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
 import useBreakpoints from '../../hooks/useBreakpoints/useBreakpoints';
-import Typography from '../Typography/Typography';
-import Button from '../Button/Button';
+import LabelHeader from '../LabelHeader/LabelHeader';
 
 const NewProduct = () => {
 
@@ -38,10 +37,7 @@ const NewProduct = () => {
   return (
     <div className='flex w-full justify-center'>
         <div className='px-2 w-full'>
-            <div className='flex items-center justify-between px-2'>
-              <Typography size={'xl'} label={'TERBARU'} width={'w-24'}/>
-              <Button type={'link'} size={'small'} label={'Lihat Semua'} />
-            </div>
+          <LabelHeader label={'TERBARU'}/>
               {loading ? 
               <p>Loading..</p>
               :

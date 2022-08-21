@@ -7,9 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
-import Typography from '../Typography/Typography';
-import Button from '../Button/Button';
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
+import LabelHeader from '../LabelHeader/LabelHeader';
 
 const Voucher = () => {
     const [voucher, setVoucher] = useState([])
@@ -35,10 +34,7 @@ const Voucher = () => {
       {voucher.length > 0 ?
             <div className='flex w-full justify-center'>
                 <div className='w-full px-2'>
-                    <div className='flex items-center justify-between px-2'>
-                        <Typography size={'xl'} label={'VOUCHER'} width={'w-28'}/>
-                        <Button type={'link'} size={'small'} label={'Lihat Semua'} />
-                    </div>
+                    <LabelHeader label={'VOUCHER'}/>
                     {loading?
                     <p>Loading...</p>
                     :
