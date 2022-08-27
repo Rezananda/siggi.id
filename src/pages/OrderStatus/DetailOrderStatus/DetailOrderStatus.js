@@ -97,7 +97,7 @@ const DetailOrderStatus = () => {
                     {order.attributes.detail_order.map((val, index) =>
                         <div className='flex w-full items-center p-1 gap-2' key={index}>
                         <div className='w-2/12 overflow-hidden rounded'>
-                            <img src={`${process.env.REACT_APP_BASE_URL}${val.image}`} alt={val.variant_name}></img>
+                            <img src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${val.image}` : `${val.image}`} alt={val.variant_name}/>                               
                         </div>
                         <div className='w-8/12 truncate'>
                             <p className='truncate'>{val.name}</p>

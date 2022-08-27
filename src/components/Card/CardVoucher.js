@@ -5,7 +5,7 @@ const CardVoucher = ({val, id}) => {
   const navigate = useNavigate()
   
   return (
-    <div className='flex flex-col w-full drop-shadow-md justify-center text-center rounded-lg bg-white overflow-hidden' onClick={() => navigate(`/voucher/${id}`)}>
+    <div className='flex flex-col w-full shadow-lg justify-center text-center rounded-lg bg-white overflow-hidden' onClick={() => navigate(`/voucher/${id}`)}>
         <div className='p-2 w-full h-full bg-yellow-500 truncate'>
             <p className='font-bold text-white truncate text-lg'>{val.name}</p>
         </div>

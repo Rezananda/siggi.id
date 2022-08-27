@@ -46,8 +46,7 @@ const Search = () => {
     useEffect(() => {
         setLoadingCategories(true)
         const isMounted = true
-        axios.get(`http://localhost:1337/api/categories`).
-        then(response => {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/categories`).then(response => {
             if(isMounted){
                 setCategories(response.data.data)
                 setLoadingCategories(false)
@@ -65,7 +64,7 @@ const Search = () => {
 
     const getSearch = () => {
         setLoading(true)
-        axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?filters[name][$contains]=${search.searchKey}${search.category === 'all'? ``:`&filters[categories]=${search.category}`}&populate=*`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?filters[name][$containsi]=${search.searchKey}${search.category === 'all'? ``:`&filters[categories]=${search.category}`}&populate=*`)
         .then(response => {
             setSearchResult(response.data.data)
             setLoading(false)
@@ -79,7 +78,7 @@ const Search = () => {
     <div className='bg-gray-50 min-h-screen'>
         <div className='py-5 bg-white drop-shadow-lg flex flex-col justify-center gap-2 sticky top-0 z-50 w-full px-4'>
             <div className='flex items-center'>
-                <button onClick={() => navigate('/')}>
+                <button onClick={() => navigate(-1)}>
                     <Icon type={'arrow-back'} className={'h-7 w-7 text-yellow-500'}/>
                 </button>
                 <p className='text-yellow-500 text-xl font-bold'>{'Cari Siggi'}</p>

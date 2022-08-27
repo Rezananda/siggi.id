@@ -103,7 +103,7 @@ const OrderStatus = () => {
                             </div>
                             <div className='w-full flex gap-2 p-2' key={index}>
                                 <div className='w-2/12 truncate overflow-hidden rounded'>
-                                    <img src={`${process.env.REACT_APP_BASE_URL}${val.attributes.detail_order[0].image}`} alt={val.attributes.detail_order[0].name}/>
+                                    <img src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${val.attributes.detail_order[0].image}` : `${val.attributes.detail_order[0].image}`} alt={val.attributes.detail_order[0].name}/>                               
                                 </div>
                                 <div className='w-10/12'>
                                     <p className='truncate font-bold'>{val.attributes.detail_order[0].name}</p>

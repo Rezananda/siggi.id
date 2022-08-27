@@ -10,11 +10,13 @@ import { Navigation } from "swiper";
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
 import useBreakpoints from '../../hooks/useBreakpoints/useBreakpoints';
 import LabelHeader from '../LabelHeader/LabelHeader';
+import { useNavigate } from 'react-router-dom';
 
 const PromoProduct = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
     const isDesktop = useBreakpoints()
+    const navigate = useNavigate()
 
     useEffect(() => {
       let isApiSubscribed = true
@@ -38,7 +40,7 @@ const PromoProduct = () => {
   return (
     <div className='flex w-full justify-center'>
         <div className='w-full px-2'>
-            <LabelHeader label={'PROMO'}/>
+            <LabelHeader label={'PROMO'} onClick={() => navigate('/products')}/>
             {loading ? 
               <p>Loading..</p>
               :

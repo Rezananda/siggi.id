@@ -13,21 +13,19 @@ import LabelHeader from '../LabelHeader/LabelHeader';
 const Voucher = () => {
     const [voucher, setVoucher] = useState([])
     const [loading, setLoading] = useState(false)
-    
-    const getVoucher = async() => {
-        setLoading(true)
-        try{
-            let response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers`)
-            setVoucher(response.data.data)
-            setLoading(false)
-        }catch(e){
-            console.log(e)
-            setLoading(false)
-        }
-    }
 
     useEffect(()=> {
-        getVoucher()
+        setLoading(true)
+        let isMounted = true
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers`).then(response => {
+            if(isMounted){
+                setVoucher(response.data.data)
+                setLoading(false)
+            }
+        }).catch(err => {
+            console.log(err)
+            setLoading(false)
+        })
     }, [])
   return (
       <>

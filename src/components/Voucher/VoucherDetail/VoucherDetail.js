@@ -25,7 +25,7 @@ const VoucherDetail = () => {
     useEffect(() => {
       let isMounted = true
       setLoading(true)
-      axios.get(`http://localhost:1337/api/vouchers/${id}`).then(response => {
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers/${id}`).then(response => {
           if(isMounted){
               setVoucher(response.data.data)
               setLoading(false)

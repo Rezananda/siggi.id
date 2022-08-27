@@ -108,15 +108,27 @@ const Input = ({setAddress, address, provinces, loadingProvince, getCity, city, 
         </div>
         <div>
           {voucher.length === 1&&
-          <div className='bg-yellow-50 border border-yellow-500 text-yellow-500 px-4 py-2 rounded-lg text-lg'>
-            {voucher[0].attributes.name}
-          </div>
+          <>
+            <div className='bg-yellow-50 border border-yellow-500 text-yellow-500 px-4 py-2 rounded-lg text-lg'>
+              {voucher[0].attributes.name}
+            </div>
+            <p className='text-sm text-yellow-500'>Voucher berhasil ditambah!</p>
+          </>
           }
           {voucher.length === 0&& 
             <div className='flex items-center w-full gap-1'>
               <input type={'text'} className='px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 w-full' onChange={(e) => setGetVoucher(e.target.value)} placeholder='Masukkan Kode Voucher'/>
               <button className='bg-yellow-500 border border-yellow-500 rounded-lg px-4 py-3 text-white' onClick={() => handlCheckVoucher(getVoucher)}>Tambah</button>
             </div>
+          }
+          {voucher === 'not found'&& 
+          <>
+            <div className='flex items-center w-full gap-1'>
+              <input type={'text'} className='px-4 py-3 bg-gray-50 rounded-lg border border-red-500 w-full' onChange={(e) => setGetVoucher(e.target.value)} placeholder='Masukkan Kode Voucher'/>
+              <button className='bg-yellow-500 border border-yellow-500 rounded-lg px-4 py-3 text-white' onClick={() => handlCheckVoucher(getVoucher)}>Tambah</button>
+            </div>
+            <p className='text-sm text-red-500'>Voucher tidak ditemukan!</p>
+          </>
           }
         </div>
       </div>

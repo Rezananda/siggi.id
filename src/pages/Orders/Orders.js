@@ -99,7 +99,12 @@ const Orders = () => {
   const handlCheckVoucher = (value) => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers?filters[voucher_code][$eq]=${value}`).
     then(response => {
-      setVocher(response.data.data)
+      if(response.data.data.length === 0){
+        console.log('notfound')
+        setVocher('not found')
+      }else{
+        setVocher(response.data.data)
+      }
     }).catch(err => {
       console.log(err)
     })

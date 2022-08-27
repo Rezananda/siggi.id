@@ -13,6 +13,7 @@ import Orders from './pages/Orders/Orders';
 import DetailOrderStatus from './pages/OrderStatus/DetailOrderStatus/DetailOrderStatus';
 import OrderStatus from './pages/OrderStatus/OrderStatus';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
+import Products from './pages/Products/Products';
 import Registration from './pages/Registration/Registration';
 import Search from './pages/Search/Search';
 
@@ -27,6 +28,7 @@ function App() {
               <Route path='/login' element={<Login/>}/>
               <Route path='/registrastion' element={<Registration/>}/>
               <Route path='/' element={<Home/>}/>
+              <Route path='/products' element={<Products/>}/>
               <Route path='/product/:id' element={<ProductDetail/>}/>
               <Route path='/carts' element={<Carts/>}/>
               <Route path='/voucher/:id' element={<VoucherDetail/>}/>
