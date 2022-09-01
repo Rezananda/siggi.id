@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import Icon from '../../components/Icon/Icon'
+import SpinnerLoading from '../../components/SpinnerLoading/SpinnerLoading'
 import useGetCurrency from '../../hooks/useGetCurrency/useGetCurrency'
 
 const Search = () => {
@@ -79,9 +80,9 @@ const Search = () => {
         <div className='py-5 bg-white drop-shadow-lg flex flex-col justify-center gap-2 sticky top-0 z-50 w-full px-4'>
             <div className='flex items-center'>
                 <button onClick={() => navigate(-1)}>
-                    <Icon type={'arrow-back'} className={'h-7 w-7 text-yellow-500'}/>
+                    <Icon type={'arrow-back'} className={'h-7 w-7 text-siggi-hard'}/>
                 </button>
-                <p className='text-yellow-500 text-xl font-bold'>{'Cari Siggi'}</p>
+                <p className='text-siggi-hard text-xl font-bold'>{'Cari Siggi'}</p>
             </div>
             <input type={'text'} onChange={(e) => setSearch({...search, searchKey: e.target.value})} placeholder='Cari Produk Siggi' className='bg-gray-100 border border-gray-200 py-2 px-4 w-full rounded'/>
             <select onChange={(e) => setSearch({...search, category: e.target.value})} className='w-full px-4 py-2 bg-gray-100 rounded-lg border border-gray-200'>
@@ -96,7 +97,10 @@ const Search = () => {
             <Button type={'fill'} label={'Cari'} onclick={() => getSearch()} size={'large'}/>
             }
         </div>
-        {loading? <p>Loading...</p> : 
+        {loading? 
+        <div className='p-4'>
+            <SpinnerLoading/>
+        </div> : 
         
         <div className='p-4 w-full'>
             {searchResult.length !== 0?

@@ -1,46 +1,35 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './assets/css/App.css';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import PublicRoute from './components/PublicRoute/PublicRoute';
 import VoucherDetail from './components/Voucher/VoucherDetail/VoucherDetail';
-// import PublicRoute from './components/PublicRoute/PublicRoute';
 import CartContext from './context/CartContext';
-import JwtContext from './context/JwtContext';
 import Carts from './pages/Carts/Carts';
 import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
 import Orders from './pages/Orders/Orders';
 import DetailOrderStatus from './pages/OrderStatus/DetailOrderStatus/DetailOrderStatus';
 import OrderStatus from './pages/OrderStatus/OrderStatus';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Products from './pages/Products/Products';
-import Registration from './pages/Registration/Registration';
 import Search from './pages/Search/Search';
+import Voucher from './pages/Voucher/Voucher';
 
 function App() {
   return (
-    <div>
+    <div className='md:min-h-screen md:w-1/3 md:m-auto md:relative'>
       <CartContext>
-        <JwtContext>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<PublicRoute/>}></Route>
-              <Route path='/login' element={<Login/>}/>
-              <Route path='/registrastion' element={<Registration/>}/>
-              <Route path='/' element={<Home/>}/>
-              <Route path='/products' element={<Products/>}/>
-              <Route path='/product/:id' element={<ProductDetail/>}/>
-              <Route path='/carts' element={<Carts/>}/>
-              <Route path='/voucher/:id' element={<VoucherDetail/>}/>
-              <Route path='/search' element={<Search/>}/>
-              <Route element={<PrivateRoute/>}>
-                <Route path='/orders' element={<Orders/>}/>
-                <Route path='/order-status' element={<OrderStatus/>}/>
-                <Route path='/order-status/:id' element={<DetailOrderStatus/>}/>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </JwtContext>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/vouchers' element={<Voucher/>}/>
+            <Route path='/products' element={<Products/>}/>
+            <Route path='/product/:id' element={<ProductDetail/>}/>
+            <Route path='/carts' element={<Carts/>}/>
+            <Route path='/voucher/:id' element={<VoucherDetail/>}/>
+            <Route path='/search' element={<Search/>}/>
+            <Route path='/orders' element={<Orders/>}/>
+            <Route path='/order-status' element={<OrderStatus/>}/>
+            <Route path='/order-status/:id' element={<DetailOrderStatus/>}/>
+          </Routes>
+        </BrowserRouter>
       </CartContext>
     </div>
   );

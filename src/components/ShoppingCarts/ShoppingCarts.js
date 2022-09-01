@@ -12,7 +12,7 @@ const ShoppingCarts = () => {
         <div className='flex justify-end'>
             <span className='flex items-center absolute justify-center bg-red-500 h-5 w-5 rounded-full text-xs text-white font-bold p-2'>{cart.reduce((acc, val) => acc + val.qty, 0)}</span>
         </div>
-        <Icon type={'shopping-bag-solid'} className={'h-9 w-9 text-yellow-500'}/>
+        <Icon type={'shopping-bag-solid'} className={'h-9 w-9 text-siggi-hard'}/>
     </button>
   )
 }

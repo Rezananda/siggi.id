@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import SpinnerLoading from '../SpinnerLoading/SpinnerLoading'
 
 const Category = () => {
     const [category, setCategory] = useState([])
@@ -32,7 +33,9 @@ const Category = () => {
             <p className='text-xl font-bold'>KATEGORI</p>
         </div>
         {loading ? 
-        <p>Loading...</p>
+        <div>
+            <SpinnerLoading/>
+        </div>
         :
         <div className='grid grid-cols-2 gap-4'>
             {category.map((val, index) => (

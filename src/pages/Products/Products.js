@@ -1,12 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Button from '../../components/Button/Button'
 import CardProduct from '../../components/Card/CardProduct'
 import Footer from '../../components/Footer/Footer'
 import Icon from '../../components/Icon/Icon'
 import Navbar from '../../components/Navbar/Navbar'
 import Pagination from '../../components/Pagination/Pagination'
+import SpinnerLoading from '../../components/SpinnerLoading/SpinnerLoading'
 
 const usePreviousValue = (value) => {
   const ref = useRef();
@@ -26,7 +26,7 @@ const Products = () => {
   const navigate = useNavigate()
   const [filter, setFilter] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState('')
-
+  
   const handlePage = (page) => {
     if(page === 'prev'){
       setSelectedPage(selectedPage - 1)
@@ -56,6 +56,12 @@ const Products = () => {
       isMounted = false
     }
   }, [previousValue, selectedPage, state])
+
+  useEffect(() => {
+    window.scrollTo(0,0)
+
+  }, [])
+  
   
   return (
     <>
@@ -66,22 +72,32 @@ const Products = () => {
             <p className='text-lg font-bold uppercase'>{state.name}</p>
             <div className='flex items-center gap-2'>
               <button onClick={() => navigate('/search')}>
-                <Icon type={`search`} className={`h-7 w-7 text-yellow-500`}/>
+                <Icon type={`search`} className={`h-7 w-7 text-siggi-hard`}/>
               </button>
               <button onClick={() => setFilter(true)}>
-                <Icon type={`filter`} className={`h-7 w-7 text-yellow-500`}/>
+                <Icon type={`filter`} className={`h-7 w-7 text-siggi-hard`}/>
               </button>
             </div>
           </div>
           {loading?
-          <p>Loading...</p>
+          <div>
+            <SpinnerLoading/>
+          </div>
           :
+          <>
           <div className='grid grid-cols-2 gap-2'>
             {selectedFilter === ''? 
             <>
               {products.sort((a, b) => a.id - b.id).map((val, index) => (
                 <CardProduct key={index} productId={val.id} name={val.attributes.name} variants={val.attributes.variants.data} image={val.attributes.image.data[0].attributes.formats.large.url}/>
               ))}
+            </>
+            :
+            selectedFilter === 'diskon'?
+            <>
+            {products.filter(el => el.attributes.variants.data.some(subEl => subEl.attributes.is_discount_variant === true)).map((val, index) => (
+              <CardProduct key={index} productId={val.id} name={val.attributes.name} variants={val.attributes.variants.data} image={val.attributes.image.data[0].attributes.formats.large.url}/>
+            ))}
             </>
             :
             selectedFilter === 'hargaRendah'?
@@ -101,13 +117,14 @@ const Products = () => {
             ''
             }
           </div>
-          }
           <Pagination maxPage={maxPage} pageNumber={selectedPage} handlePage={handlePage}/>
+          </>
+          }
         </div>
 
         {filter&&<div className='h-screen fixed top-0 bottom-0 left-0 right-0 z-50 bg-black opacity-50' onClick={() => setFilter(false)}></div>}
         {filter&&
-          <div className='fixed bottom-0 left-0 right-0 bg-white rounded-t-xl p-4 flex flex-col gap-4 z-50'>
+          <div className='fixed md:sticky bottom-0 left-0 right-0 bg-white rounded-t-xl p-4 flex flex-col gap-4 z-50'>
             <div className='w-full flex justify-between'>
               <p className='font-bold text-lg'>
                 Filter
@@ -123,12 +140,16 @@ const Products = () => {
               </div>
               <div className='flex items-center flex-wrap gap-2'>
                 <div className="relative">
+                    <input onClick={(e) => {setSelectedFilter(e.target.value); setFilter(false)}} value={`diskon`} className="sr-only peer" type="radio" name="variant" id={`diskon`} defaultChecked={selectedFilter === 'diskon'}/>
+                    <label className="flex px-2 py-1 bg-white border border-gray-300 rounded-full cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-siggi-hard peer-checked:bg-siggi-soft peer-checked:ring-2 peer-checked:border-transparent" htmlFor={`diskon`}>Diskon</label>
+                </div>
+                <div className="relative">
                     <input onClick={(e) => {setSelectedFilter(e.target.value); setFilter(false)}} value={`hargaRendah`} className="sr-only peer" type="radio" name="variant" id={`hargaRendah`} defaultChecked={selectedFilter === 'hargaRendah'}/>
-                    <label className="flex px-2 py-1 bg-white border border-gray-300 rounded-full cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:bg-yellow-50 peer-checked:ring-2 peer-checked:border-transparent" htmlFor={`hargaRendah`}>Harga Terendah</label>
+                    <label className="flex px-2 py-1 bg-white border border-gray-300 rounded-full cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-siggi-hard peer-checked:bg-siggi-soft peer-checked:ring-2 peer-checked:border-transparent" htmlFor={`hargaRendah`}>Harga Terendah</label>
                 </div>
                 <div className="relative">
                     <input onClick={(e) => {setSelectedFilter(e.target.value); setFilter(false)}} value={`hargaTinggi`} className="sr-only peer" type="radio" name="variant" id={`hargaTinggi`} defaultChecked={selectedFilter === 'hargaTinggi'}/>
-                    <label className="flex px-2 py-1 bg-white border border-gray-300 rounded-full cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:bg-yellow-50 peer-checked:ring-2 peer-checked:border-transparent" htmlFor={`hargaTinggi`}>Harga Tertinggi</label>
+                    <label className="flex px-2 py-1 bg-white border border-gray-300 rounded-full cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-siggi-hard peer-checked:bg-siggi-soft peer-checked:ring-2 peer-checked:border-transparent" htmlFor={`hargaTinggi`}>Harga Tertinggi</label>
                 </div>
               </div>
             </div>

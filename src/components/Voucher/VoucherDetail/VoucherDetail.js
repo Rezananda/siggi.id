@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Icon from '../../Icon/Icon'
 import TopNavbar from '../../Navbar/TopNavbar'
+import SpinnerLoading from '../../SpinnerLoading/SpinnerLoading'
 
 const VoucherDetail = () => {
     const {id} = useParams()
@@ -18,8 +19,11 @@ const VoucherDetail = () => {
     const [alert, setAlert] = useState(false)
 
     const copyText = () => {
-        navigator.clipboard.writeText(voucher.attributes.voucher_code)
-        setAlert(true)
+        navigator.clipboard.writeText(voucher.attributes.voucher_code).then(res => {
+            setAlert(true)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     useEffect(() => {
@@ -40,14 +44,15 @@ const VoucherDetail = () => {
       }
     }, [id])
 
-    if(loading){
-        return <p>Loading...</p>
-    }
-
   return (
     <div className='min-h-screen bg-gray-50'>
-        <TopNavbar label={'Detail Voucher'} route={'/'}/>
+        <TopNavbar label={voucher.attributes.name} route={-1}/>
         <div className='p-4 flex flex-col gap-4'>
+            {loading?
+            <div>
+                <SpinnerLoading/>
+            </div>
+            :
             <div className='bg-white rounded-lg p-4 drop-shadow-md'>
                 <p className='font-bold text-lg mb-2'>{voucher.attributes.name}</p>
                 <p className='text-sm text-gray-500'>{`Berakhir pada ${new Date(voucher.attributes.end_date).toLocaleDateString('en-GB')}`}</p>
@@ -60,6 +65,7 @@ const VoucherDetail = () => {
                     {alert&&<p className='text-green-500 text-sm'>Tersalin!</p>}
                 </div>
             </div>
+            }
         </div>
     </div>
   )

@@ -9,15 +9,18 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
 import LabelHeader from '../LabelHeader/LabelHeader';
+import { useNavigate } from 'react-router-dom';
+import SpinnerLoading from '../SpinnerLoading/SpinnerLoading';
 
 const Voucher = () => {
     const [voucher, setVoucher] = useState([])
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(()=> {
         setLoading(true)
         let isMounted = true
-        axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers`).then(response => {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/vouchers?pagination[pageSize]=5`).then(response => {
             if(isMounted){
                 setVoucher(response.data.data)
                 setLoading(false)
@@ -32,9 +35,11 @@ const Voucher = () => {
       {voucher.length > 0 ?
             <div className='flex w-full justify-center'>
                 <div className='w-full px-2'>
-                    <LabelHeader label={'VOUCHER'}/>
+                    <LabelHeader label={'VOUCHER'} onClick={() => navigate('/vouchers')}/>
                     {loading?
-                    <p>Loading...</p>
+                    <div className='p-2'>
+                        <SpinnerLoading/>
+                    </div>
                     :
                     <>
                         <Swiper navigation={{

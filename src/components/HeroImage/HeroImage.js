@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
 import axios from 'axios';
+import SpinnerLoading from '../SpinnerLoading/SpinnerLoading';
 
 const HeroImage = ({type, productDetail}) => {
   const [heroimage, setHeroimage] = useState([])
@@ -35,7 +36,9 @@ const HeroImage = ({type, productDetail}) => {
       {type === 'home' ?
       <>
           {loading ?
-          <p>Loading</p>
+          <div className='p-4'>
+            <SpinnerLoading/>
+          </div>
           :          
           <Swiper 
           centeredSlides={true}

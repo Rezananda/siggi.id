@@ -6,16 +6,16 @@ const Button = ({type, size, onclick, label}) => {
     <button className={`
     ${
         type === 'fill'?
-            'text-white bg-yellow-500 border border-yellow-500 px-3 py-1 font-bold w-full rounded-full'
+            'text-white bg-siggi-hard border border-siggi-hard px-3 py-1 font-bold w-full rounded-full'
         :
         type === 'outline'? 
-            'text-yellow-500 bg-white border border-yellow-500 px-3 py-1 font-bold w-full rounded-full'
+            'text-siggi-hard bg-white border border-siggi-hard px-3 py-1 font-bold w-full rounded-full'
         :
         type === 'link' ?
             'text-blue-500 underline'
         :
         type === 'disable'?
-            'text-white bg-yellow-300 border border-yellow-300 px-3 py-1 font-bold w-full rounded-full'
+            'text-white bg-orange-100 border border-orange-100 px-3 py-1 font-bold w-full rounded-full'
         :
             ''
     }

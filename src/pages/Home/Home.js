@@ -5,7 +5,6 @@ import Footer from '../../components/Footer/Footer'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import Navbar from '../../components/Navbar/Navbar'
 import NewProduct from '../../components/NewProduct/NewProduct'
-import PromoProduct from '../../components/PromoProduct/PromoProduct'
 import Review from '../../components/Review/Review'
 import Search from '../../components/Search/Search'
 import Voucher from '../../components/Voucher/Voucher'
@@ -17,7 +16,6 @@ const Home = () => {
       <HeroImage type={'home'}/>
       <Search/>
       <Voucher/>
-      <PromoProduct/>
       <NewProduct/>
       <Category/>
       <Review/>

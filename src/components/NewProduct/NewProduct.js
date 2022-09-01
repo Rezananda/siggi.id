@@ -9,19 +9,20 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import ArrowNavigation from '../ArrowNavigation/ArrowNavigation';
-import useBreakpoints from '../../hooks/useBreakpoints/useBreakpoints';
 import LabelHeader from '../LabelHeader/LabelHeader';
+import { useNavigate } from 'react-router-dom';
+import SpinnerLoading from '../SpinnerLoading/SpinnerLoading';
 
 const NewProduct = () => {
 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
-  const isDesktop = useBreakpoints()
+  const navigate = useNavigate()
 
   const getData = async () => {
     setLoading(true)
     try{
-      let response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?populate=*`)
+      let response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?pagination[pageSize]=5&populate=*`)
       setProducts(response.data.data)
       setLoading(false)
     }catch(e){
@@ -37,16 +38,18 @@ const NewProduct = () => {
   return (
     <div className='flex w-full justify-center'>
         <div className='px-2 w-full'>
-          <LabelHeader label={'TERBARU'}/>
+          <LabelHeader label={'TERBARU'} onClick={() => navigate('/products', {state: {name: 'SEMUA PRODUK', id: 'allProduct', selected: 1}})}/>
               {loading ? 
-              <p>Loading..</p>
+              <div className='p-2'>
+                <SpinnerLoading/>
+              </div>
               :
               <Swiper navigation={{
                 nextEl: '.next',
                 prevEl: '.prev'
               }} 
               modules={[Navigation]} 
-              slidesPerView={isDesktop ? 6 : 2}
+              slidesPerView={2}
               className='relative'
               > 
                   {products.map((val, index) => 

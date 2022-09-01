@@ -7,10 +7,10 @@ const CardProduct = ({productId, name, variants, image}) => {
   const getCurrency = useGetCurrency()
 
   return (
-    <div className='flex flex-col md:w-48 w-full bg-white shadow-lg rounded-lg h-fit overflow-hidden' onClick={() => navigate(`/product/${productId}`)}>
-        <div className='md:w-full relative'>
+    <div className='flex flex-col w-full bg-white shadow-lg rounded-lg h-fit overflow-hidden' onClick={() => navigate(`/product/${productId}`)}>
+        <div className='relative'>
           <img className='object-contain' src={'http://localhost:1337/'.includes(process.env.REACT_APP_BASE_URL) ?`${process.env.REACT_APP_BASE_URL}${image}` : `${image}`} alt='piring1'/>
-          <div className={`${variants.find(x => x.attributes.available === true) ? `text-yellow-500 bg-yellow-50` : `text-red-500 bg-red-50`} absolute top-0 overflow-hidden px-2 font-bold rounded-br-lg`}>{variants.find(x => x.attributes.available === true) ? 'TERSEDIA' : 'HABIS'}</div>
+          <div className={`${variants.find(x => x.attributes.available === true) ? `text-siggi-hard bg-siggi-soft` : `text-red-500 bg-red-50`} absolute top-0 overflow-hidden px-2 font-bold rounded-br-lg`}>{variants.find(x => x.attributes.available === true) ? 'TERSEDIA' : 'HABIS'}</div>
         </div>
 
         {variants.find(x => x.attributes.is_discount_variant === true) ? 

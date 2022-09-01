@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import SpinnerLoading from '../SpinnerLoading/SpinnerLoading'
 
 const Review = () => {
     const [reviews, setReviews] = useState([])
@@ -24,7 +25,7 @@ const Review = () => {
     }, [])
     
   return (
-    <div className='p-2 w-full'>
+    <div className='p-4 w-full'>
         <style>
           {
           `.scrollable::-webkit-scrollbar {
@@ -35,12 +36,15 @@ const Review = () => {
         <div className='flex items-center'>
             <p className='text-xl font-bold'>TESTIMONI</p>
         </div>
-        {loading? <p>Loading...</p>
+        {loading? 
+        <div>
+          <SpinnerLoading/>
+        </div>
         :
-        <div className='flex overflow-x-auto gap-2 scrollable'>
+        <div className='flex overflow-x-auto scrollable'>
           {reviews.map((val, index) => (
-            <div className='p-2' key={index}>
-              <div className='flex flex-col w-full p-4 rounded-lg shadow-lg h-fit'>
+            <div className='mb-4 px-2' key={index}>
+              <div className='flex flex-col w-full p-4 rounded-lg shadow-lg h-fit bg-white'>
                   <p className='font-bold truncate'>{val.attributes.name}</p>
                   <div className='flex items-center relative'>             
                     {Array.from(Array(5), (val, index) => (
